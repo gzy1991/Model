@@ -7,7 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	error
-	<%=request.getParameter("errorMsg") %>
+	error</br>
+	<%=request.getParameter("ERROR_MSG_KEY") %></br>
+	<%=request.getParameter("error") %></br>
 </body>
 </html>

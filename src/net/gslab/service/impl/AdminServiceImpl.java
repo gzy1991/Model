@@ -14,5 +14,12 @@ import net.gslab.service.TeacherService;
 public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminService{
 	@Resource(name="adminDaoImpl")
 	private AdminDao adminDao;
+
+	@Override
+	public Admin getByID(int id) {
+		// TODO Auto-generated method stub
+		return adminDao.getAdminById(id);	
+
+	}
 	
 }

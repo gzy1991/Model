@@ -51,6 +51,7 @@ PersistenceAnnotationBeanPostProcessor 以及 RequiredAnnotationBeanPostProcesso
 				<prop key="net.gslab.entity.User">read-write,freqChangeRegion</prop>
 				<prop key="net.gslab.entity.Member">read-write,freqChangeRegion</prop>
 				<prop key="net.gslab.entity.Teacher">read-write,freqChangeRegion</prop>
+				<prop key="net.gslab.entity.Admin">read-write,freqChangeRegion</prop>
 			</props>
 		</property>
 	</bean>
