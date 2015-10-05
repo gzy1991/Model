@@ -59,7 +59,7 @@ public class Login2Controller extends BaseController{
 				mav.setViewName("redirect:/common/resource_not_found.jsp");
 				return mav;
 			}else{
-				mav.addObject("ERROR_MSG_KEY", "您已成功登陆");
+				mav.addObject("ERROR_MSG_KEY", "Hello,student,login success");
 				System.out.println("您已成功登陆");
 				//LoginFilter.java ,设置 FILTERED_REQUEST, "@@session_context_filtered_request"
 				// 置位不再经过过滤器 ,这个功能还在测试
@@ -89,7 +89,7 @@ public class Login2Controller extends BaseController{
 				mav.setViewName("redirect:/common/resource_not_found.jsp");
 				return mav;
 			}else{
-				mav.addObject("ERROR_MSG_KEY", "您已成功登陆");
+				mav.addObject("ERROR_MSG_KEY", "Hello,teacher,login success!");
 				System.out.println("老师，您已成功登陆");
 				//LoginFilter.java ,设置 FILTERED_REQUEST, "@@session_context_filtered_request"
 				// 置位不再经过过滤器 ,这个功能还在测试
@@ -120,7 +120,7 @@ public class Login2Controller extends BaseController{
 				mav.setViewName("redirect:/common/resource_not_found.jsp");
 				return mav;
 			}else{
-				mav.addObject("ERROR_MSG_KEY", "您已成功登陆");
+				mav.addObject("ERROR_MSG_KEY", "Admin,login success.");
 				System.out.println("管理员，您已成功登陆");
 				//LoginFilter.java ,设置 FILTERED_REQUEST, "@@session_context_filtered_request"
 				// 置位不再经过过滤器 ,这个功能还在测试

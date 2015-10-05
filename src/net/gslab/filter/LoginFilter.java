@@ -19,7 +19,7 @@ import net.gslab.setting.CommonConstant;
 public class LoginFilter implements Filter {
 
 	private static final String FILTERED_REQUEST = "@@session_context_filtered_request";
-	private static final String[] INHERENT_ESCAPE_URIS = { "/view/home.jsp","/view/aplay.jsp"}; //?
+	private static final String[] INHERENT_ESCAPE_URIS = { "/view/get9Page", "/view/home.jsp","/view/aplay.jsp","/view/home.jsp"}; //?
 
 	/**
 	 * Default constructor.
@@ -44,7 +44,7 @@ public class LoginFilter implements Filter {
 		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
         
-        String[] notFilter = new String[] { "/view/doLogin","/member/activeEmail_receive"  };// 不过滤的url,
+        String[] notFilter = new String[] {"/view/get9Page", "/view/doLogin","/member/activeEmail_receive","/view/home.jsp" };// 不过滤的url,
 
 		String servletPath=httpRequest.getServletPath();  //获取url路径 的后半部分
         String url = httpRequest.getRequestURI().toString(); //获取url路径 
