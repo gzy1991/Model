@@ -51,4 +51,16 @@ public class BaseController {
 		return (Admin)request.getSession().getAttribute(CommonConstant.MEMBER_CONTEXT);
 	}
 	
+	//注销
+	protected void loginOut(HttpServletRequest request){
+		String type=this.getSessionType(request);
+		if(type==null ||type.equals("")){           //如果不存在登陆用户
+			return;
+		}
+		else if(type.equals("student")||type.equals("teacher")||type.equals("admin")){
+		request.getSession().removeAttribute(CommonConstant.MEMBER_CONTEXT);
+		request.getSession().removeAttribute(CommonConstant.LOGIN_TYPE);
+		}
+	}
+	
 }
