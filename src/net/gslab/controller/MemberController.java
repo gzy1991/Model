@@ -335,8 +335,8 @@ public class MemberController extends BaseController{
 		                    int memberid=Integer.parseInt(id);  //id转为int类型，因为数据库里面memberId是int类型
 		                    System.out.println("1 :memberId:"+memberid+" loadname:"+loadname+"memberName："+memberName+" password:"+password);
 		                    
-		                    Member as = new Member();
-		                    if( memberService.get(memberid)==null&&loadname!=null&&password!=null)
+		                    Member as = new Member(); 
+		                    if( memberService.get(memberid)==null&&loadname!=null&&password!=null)  //如果member不与数据库中人员冲突，并且不为空
 		                    {
 			                System.out.println("2 :memberId:"+memberid+" loadname:"+loadname+"memberName："+memberName+" password:"+password);
 		                    as.setLoadname(loadname);
