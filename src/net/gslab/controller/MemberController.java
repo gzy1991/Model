@@ -119,7 +119,7 @@ public class MemberController extends BaseController{
 		    }
 		}
 		
-		//激活邮箱->发送邮件  ,统计把验证码写入数据库
+		//激活邮箱->发送邮件  ,把验证码写入数据库
 		@RequestMapping(value="/activeEmail_send",method=RequestMethod.POST)
 		public ModelAndView setEmail(HttpServletRequest request)
 		{			

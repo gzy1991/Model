@@ -64,7 +64,10 @@
     <filter-name>loginFilterAdmin</filter-name>
     <url-pattern>/view_admin/*</url-pattern>
   </filter-mapping>
-  
+  <filter-mapping>
+    <filter-name>loginFilterAdmin</filter-name>
+    <url-pattern>/admin/*</url-pattern>
+  </filter-mapping>
    
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

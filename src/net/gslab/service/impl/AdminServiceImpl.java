@@ -12,6 +12,8 @@ import net.gslab.entity.Member;
 import net.gslab.entity.Teacher;
 import net.gslab.service.AdminService;
 import net.gslab.service.TeacherService;
+import net.gslab.setting.CommonConstant;
+import net.gslab.setting.Page;
 
 @Service("adminServiceImpl")
 public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminService{
@@ -42,5 +44,10 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
 	public boolean delete(int id){
 		Admin entity = adminDao.load(id);
 		return adminDao.remove(entity);
+	}
+	public Page<Admin> getPage(int pageIndex){
+		String className=adminDao.getEntityClass().getSimpleName();
+		int pageSize=CommonConstant.PAGE_SIZE[CommonConstant.getTable(className)];
+		return adminDao.getPage(pageIndex,pageSize);
 	}
 }

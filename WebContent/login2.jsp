@@ -9,9 +9,9 @@
 <body>
 <form action="/Model/login2/doLogin2">
 	用户名：<input type="text" name="loadname"/><br/>
-	密    码：<input type="password" name="password"/>
-	学生：<input type="radio" checked="checked" name="logintype" value="student" />
-           老师：<input type="radio" name="logintype" value="teacher" />  
+	密    码：<input type="password" name="password"/><br />
+	学生：<input type="radio" checked="checked" name="logintype" value="student" /><br />
+           老师：<input type="radio" name="logintype" value="teacher" />  <br />
            管理员：<input type="radio" name="logintype" value="admin" />  <br />
 	
 	
