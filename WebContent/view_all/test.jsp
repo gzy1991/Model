@@ -7,10 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="/Model/file/show?filePath=E:\test">cesi</a>
-	<form action="/Model/file/show" method="post">
-		<input name="filePath" value="E:\test">
-		<button >确定</button>
-	</form>
+	in view_all
 </body>
 </html>
