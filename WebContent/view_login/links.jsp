@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	in view_all
+	
+	<a href="/Model/file/listCategory">查看课件</a>
+	<a href="/Model/video/listCategory">查看视频</a>
 </body>
 </html>
