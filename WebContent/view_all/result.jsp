@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	in view_all
+	<%=request.getAttribute("msg") %>
 </body>
 </html>

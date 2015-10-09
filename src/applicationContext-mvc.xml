@@ -24,6 +24,9 @@
 <!--处理文件上传的bean-->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="defaultEncoding" value="UTF-8" />
+		<property name="maxUploadSize">  
+        <value>20485760</value>  
+    </property>  
 	</bean>
 
 <!-- 处理全局异常的Bean -->

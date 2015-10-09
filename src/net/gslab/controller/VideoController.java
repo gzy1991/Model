@@ -29,8 +29,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mysql.jdbc.Field;
 
 @Controller
-@RequestMapping("/file")
-public class FileController extends BaseController {
+@RequestMapping("/video")
+public class VideoController extends BaseController {
 	@Resource 
 	private ServletContext servletContext;
 	@Resource(name="teacherDaoImpl")
