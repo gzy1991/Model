@@ -72,7 +72,7 @@ public class LoginFilter implements Filter {
 		} else {
 			System.out.println("首次进入过滤器");
 			String type=(String) httpRequest.getSession().getAttribute(CommonConstant.LOGIN_TYPE);
-			if(type.equals("") || type==null){   // 如果用户为空且未登录
+			if(type==null  ){   // 如果用户为空且未登录
 				// 拿到url
 				String toUrl = httpRequest.getRequestURL().toString();
 				System.out.println("被过滤掉：用户未登录且访问了未授权页面");

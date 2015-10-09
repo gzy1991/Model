@@ -79,4 +79,10 @@ public class MemberServiceImpl extends BaseServiceImpl<Member> implements Member
 		return memberDao.getUserByLoadName(loadname);
 	}
 	
+	@Override
+	public boolean delete(int id) {
+		// TODO Auto-generated method stub
+		Member entity = memberDao.load(id);
+		return memberDao.remove(entity);
+	}
 }

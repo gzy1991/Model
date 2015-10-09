@@ -18,7 +18,7 @@ import net.gslab.service.TeacherService;
 import net.gslab.service.UserService;
 import net.gslab.service.impl.AdminServiceImpl;
 import net.gslab.setting.Page;
-import net.gslab.tools.email;
+import net.gslab.tools.Email;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -241,10 +241,10 @@ public class AdminController extends BaseController{
         	return mav;
         }
         else{
-        	email t_email=new email();
-        	String captch=email.verification_code();  //生成验证码
-        	String msg=email.generate_msg(dbAdmin.getAdminName(),captch);//生成邮件正文
-        	email.sendMessage(emailAddress, "激活邮件", msg); //发送邮件
+        	Email t_email=new Email();
+        	String captch=Email.verification_code();  //生成验证码
+        	String msg=Email.generate_msg("admin",Integer.toString(dbAdmin.getAdminId()),captch);//生成邮件正文
+        	Email.sendMessage(emailAddress, "激活邮件", msg); //发送邮件
         	dbAdmin.setEmail_captcha(captch);         //设置验证码
         	adminDao.update(dbAdmin);            //验证码写入数据库
 	    	this.setSessionAdmin(request, dbAdmin);  //因为对登陆用户的信息进行了修改，所以要对session里面的对象也进行修改

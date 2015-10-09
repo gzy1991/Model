@@ -11,7 +11,7 @@
 <form action="../admin/deleteAdmin" class="Admin" method="POST" >
        管理员id：<input type="text" name="adminId"  ><br/> 
        管理员标记：<input type="text" name="addAdminMark"  ><br/>  
-  <input type="submit" name="submit" value="添加" />   
+  <input type="submit" name="submit" value="删除" />   
 </form>
       
 </body>
