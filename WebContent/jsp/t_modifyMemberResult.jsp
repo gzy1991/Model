@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>结果页面</title>
+<title>添加结果页面</title>
 </head>
 <body>
            <%request.setCharacterEncoding("utf-8"); %>

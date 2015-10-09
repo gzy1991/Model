@@ -27,6 +27,8 @@ public class Admin extends BaseDomain{
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date   birthDate;
 	private String password;
+	private String password_captcha;  //密码 验证码，重置密码时会用到这个字段
+	
 	private String email;
 	private String email_active;              //email状态，是否激活，"0"代表未激活，"1"代表激活,初始化是是null
 	private String email_captcha;             //email验证码，系统发送激活邮件后，会同步这个标记
@@ -115,7 +117,12 @@ public class Admin extends BaseDomain{
 	public void setSelfEvaluation(String selfEvaluation) {
 		this.selfEvaluation = selfEvaluation;
 	}
-	
+	public String getPassword_captcha() {
+		return password_captcha;
+	}
+	public void setPassword_captcha(String password_captcha) {
+		this.password_captcha = password_captcha;
+	}
 	
 	
 }

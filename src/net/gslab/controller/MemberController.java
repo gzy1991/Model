@@ -14,11 +14,12 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import net.gslab.dao.MemberDao;
 import net.gslab.entity.Member;
 import net.gslab.entity.Member.Category;
 import net.gslab.service.MemberService;
 import net.gslab.setting.Page;
-import net.gslab.tools.email;
+import net.gslab.tools.Email;
 
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -38,6 +39,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class MemberController extends BaseController{
 	@Resource(name="memberServiceImpl")
 	MemberService memberService;
+	
+	@Resource(name="memberDaoImpl")
+	MemberDao memberDao;
+	
 	public MemberService getMemberService() {
 		return memberService;
 	}
@@ -45,49 +50,84 @@ public class MemberController extends BaseController{
 		this.memberService = memberService;
 	}
 	
-	//添加学生
+	//添加单个学生
 	@RequestMapping(value="/adduser",method=RequestMethod.POST)
-	public boolean adduser(String loadname,String password,String password2,String category,String memberName){
+	public ModelAndView adduser(String loadname,String password,String password2){
+		ModelAndView mav = new ModelAndView();
+	    String toUrl="/view_admin/test.jsp";     //设置重定向
+	    mav.setViewName("redirect:"+toUrl);
+
 		Member member=new Member();
 		if(password.equals(password2)){
 			member.setLoadname(loadname);
 			member.setPassword(password);
-			member.setMemberName(memberName);
-		if(member!=null){
 			int id=Integer.parseInt(loadname);
 			member.setMemberId(id);
-			memberService.save(member);
+			memberDao.save(member);
+	    	mav.addObject("ERROR_MSG_KEY", "add student "+loadname+" success!");
+	    	return mav;
+		}else{
+			mav.addObject("ERROR_MSG_KEY", "passwords are not same, failed!");
+			return mav;
 		}
-		return true;
-		}
-		return false;
 	}
 	
 	//删除单个学生，参数是学生Id，
 	@RequestMapping(value="/deleteMember",method=RequestMethod.POST)
-	public void deleteMember(String studentId){
+	public ModelAndView deleteMember(String studentId){
+		ModelAndView mav = new ModelAndView();
+	    String toUrl="/view_admin/test.jsp";     //设置重定向
+	    mav.setViewName("redirect:"+toUrl);
+
 		String stat;
 		if(true==memberService.delete(Integer.parseInt(studentId))){
+			mav.addObject("ERROR_MSG_KEY", "success to delete student "+studentId);
+			return mav;
+		}else{
+			mav.addObject("ERROR_MSG_KEY", "failed to delete student "+studentId);
+			return mav;
 		}
 	}
 	
-	//查找单个学生，
-	@RequestMapping(value="/findOne",method=RequestMethod.POST)
+	//查找单个学生， 测试通过例子：”http://localhost:8080/Model/member/findOne?id=112“
+	@RequestMapping(value="/findOne",method=RequestMethod.GET)
 	public @ResponseBody Member findOne(String id){
 		int i=Integer.parseInt(id);
-		Member member=memberService.get(i);
+		Member member=memberDao.get(i);
 		return member;
 	}
 	
-	//查找全部学生，
-		@RequestMapping(value="/findmember",method=RequestMethod.GET)
+	//查找全部学生， 
+		@RequestMapping(value="/findAllMember",method=RequestMethod.GET)
 		public @ResponseBody List<Member> findmember(int i){
-			Page page= memberService.getPage(i);
+			int totalCount=memberDao.getCount("from Member"); //获取学生总人数
+			Page page= memberService.getPage(i,totalCount);   //返回全部学生
 			int max=page.getPageSize();
 			List<Member> members=page.getData();
 			return members;
 		}
 		
+		//查找全部学生，按参数返回分页,测试通过。例子：”http://localhost:8080/Model/member/findOnePageMember?pageIndex=1&pageSize=5“
+		@RequestMapping(value="/findOnePageMember",method=RequestMethod.GET)
+		public @ResponseBody List<Member> findOnePageMember(int pageIndex,int pageSize){
+			/**
+			 * 
+			 * @param pageIndex   请求的页码
+	         * @param pageSize   每页的记录条数
+	         * @param 
+			 */
+			Page page= memberService.getPage(pageIndex,pageSize);   //返回学生
+			List<Member> members=page.getData();
+			return members;
+		}		
+		
+		//返回totalsize，即数据库里面的学生总数,已测试，可以使用
+	       @RequestMapping(value = "/getTotalcount", method = RequestMethod.GET)
+	       public @ResponseBody  long getTotalcount()
+	       {
+	    	   return  memberDao.getCount("from Member");
+	       }		
+	       
 	//设置邮箱   ,并设置邮箱状态为“未激活”
 		@RequestMapping(value="/setEmail",method=RequestMethod.POST)
 		public ModelAndView setEmail(HttpServletRequest request,String user_email)
@@ -119,7 +159,7 @@ public class MemberController extends BaseController{
 		    }
 		}
 		
-		//激活邮箱->发送邮件  ,统计把验证码写入数据库
+		//激活邮箱->发送邮件  ,把验证码写入数据库
 		@RequestMapping(value="/activeEmail_send",method=RequestMethod.POST)
 		public ModelAndView setEmail(HttpServletRequest request)
 		{			
@@ -136,10 +176,10 @@ public class MemberController extends BaseController{
 	        	return mav;
 	        }
 	        else{
-	        	email t_email=new email();
-	        	String captch=email.verification_code();  //生成验证码
-	        	String msg=email.generate_msg(dbMember.getLoadname(),captch);//生成邮件正文
-	        	email.sendMessage(emailAddress, "激活邮件", msg); //发送邮件
+	        	Email t_email=new Email();
+	        	String captch=Email.verification_code();  //生成验证码
+	        	String msg=Email.generate_msg("member",dbMember.getLoadname(),captch);//生成邮件正文
+	        	Email.sendMessage(emailAddress, "激活邮件", msg); //发送邮件
 	        	dbMember.setEmail_captcha(captch);         //设置验证码
 	        	memberService.update(dbMember);            //验证码写入数据库
 		    	this.setSessionMember(request, dbMember);  //因为对登陆用户的信息进行了修改，所以要对session里面的对象也进行修改
@@ -147,7 +187,7 @@ public class MemberController extends BaseController{
 	        }
 			return mav;
 		}
-
+/*
 		//激活邮箱->接收邮件，并且设置邮箱状态为"已激活" .激活链接有两个参数，一个是学生账户，一个是验证码
 		@RequestMapping(value="/activeEmail_receive",method=RequestMethod.GET)
 		public ModelAndView receiveEmail(HttpServletRequest request,String ln, String ca){
@@ -176,7 +216,7 @@ public class MemberController extends BaseController{
              }
 		     
 		     return mav;
-		}
+		}*/
 		
 	//修改学生信息  （修改除密码以外的其他信息，账户名和id是不可以修改的。）,修改：地址、年级、班级、生日、性别、专业、电话、QQ
 	@RequestMapping(value="/modifyMember",method=RequestMethod.POST)
@@ -256,8 +296,6 @@ public class MemberController extends BaseController{
 		System.out.println(request.getAttribute("ERROR_MSG_KEY"));
 		return mav;
 	}
-	    
-	
 	
 	//批量添加： 接收excel表，，然后批量添加进数据库
     @RequestMapping(value="/uploadExcel",method=RequestMethod.POST)
@@ -335,8 +373,8 @@ public class MemberController extends BaseController{
 		                    int memberid=Integer.parseInt(id);  //id转为int类型，因为数据库里面memberId是int类型
 		                    System.out.println("1 :memberId:"+memberid+" loadname:"+loadname+"memberName："+memberName+" password:"+password);
 		                    
-		                    Member as = new Member();
-		                    if( memberService.get(memberid)==null&&loadname!=null&&password!=null)
+		                    Member as = new Member(); 
+		                    if( memberService.get(memberid)==null&&loadname!=null&&password!=null)  //如果member不与数据库中人员冲突，并且不为空
 		                    {
 			                System.out.println("2 :memberId:"+memberid+" loadname:"+loadname+"memberName："+memberName+" password:"+password);
 		                    as.setLoadname(loadname);

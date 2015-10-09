@@ -9,5 +9,5 @@ import net.gslab.setting.Page;
 
 public interface AdminService extends BaseService<Admin> {
 	public Admin getByID(int id);//获取管理员
-
+	Page<Admin> getPage(int pageIndex);
 }

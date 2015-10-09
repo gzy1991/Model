@@ -1,6 +1,7 @@
 package net.gslab.entity;
 
 import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 
 
 import org.hibernate.annotations.Cache;
@@ -25,9 +27,13 @@ public class Teacher extends BaseDomain{
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date   birthDate;
 	private String password;
+	private String password_captcha;  //密码 验证码，重置密码时会用到这个字段
+	
 	private String address;
 	private String imgUrl;
 	private String email;
+	private String email_active;              //email状态，是否激活，"0"代表未激活，"1"代表激活,初始化是是null
+	private String email_captcha;             //email验证码，系统发送激活邮件后，会同步这个标记
 	private String gender;
 	private String QQ;
 	private String mobilePhone;
@@ -107,6 +113,22 @@ public class Teacher extends BaseDomain{
 	public void setFileDirectory(String fileDirectory) {
 		this.fileDirectory = fileDirectory;
 	}
-	
-	
+	public String getEmail_active() {
+		return email_active;
+	}
+	public void setEmail_active(String email_active) {
+		this.email_active = email_active;
+	}
+	public String getEmail_captcha() {
+		return email_captcha;
+	}
+	public void setEmail_captcha(String email_captcha) {
+		this.email_captcha = email_captcha;
+	}
+	public String getPassword_captcha() {
+		return password_captcha;
+	}
+	public void setPassword_captcha(String password_captcha) {
+		this.password_captcha = password_captcha;
+	}
 }

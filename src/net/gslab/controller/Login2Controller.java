@@ -10,7 +10,6 @@ import net.gslab.entity.Member;
 import net.gslab.entity.User;
 import net.gslab.entity.Admin;
 import net.gslab.entity.Teacher;
-
 import net.gslab.service.AdminService;
 import net.gslab.service.MemberService;
 import net.gslab.service.TeacherService;
@@ -38,10 +37,10 @@ public class Login2Controller extends BaseController{
 	@Resource(name="adminServiceImpl")
 	private AdminService adminService;
 	
-	@RequestMapping(value="/doLogin2",method=RequestMethod.GET)
+	@RequestMapping(value="/doLogin2",method=RequestMethod.POST)
 	public ModelAndView login(HttpServletRequest request,String loadname,String password,String logintype){
 		System.out.println("in the doLogin_2");
-		System.out.println("loadname:"+loadname+" password:"+ password+" logintype:"+logintype);
+		System.out.println("loadname:"+loadname+" logintype:"+logintype);
 		ModelAndView mav=new ModelAndView();
 		
 		int id=Integer.parseInt(loadname);   //登陆账户转为int类型
@@ -49,13 +48,13 @@ public class Login2Controller extends BaseController{
 		if(logintype.equals("student")){      //学生登录
 			Member dbMember = memberService.getMemberByLoadName(loadname);
 			if(dbMember==null) {
-				mav.addObject("ERROR_MSG_KEY", "用户名不存在");
+				mav.addObject("ERROR_MSG_KEY", "the student Id don't exist1;");
 				mav.setViewName("redirect:/common/resource_not_found.jsp");
 				System.out.println("redirect2");
 				return mav;
 				}
 			else if(!dbMember.getPassword().equals(password)){
-				mav.addObject("ERROR_MSG_KEY","用户密码不正确");
+				mav.addObject("ERROR_MSG_KEY","the student password is wrong;");
 				mav.setViewName("redirect:/common/resource_not_found.jsp");
 				return mav;
 			}else{
@@ -79,13 +78,13 @@ public class Login2Controller extends BaseController{
 		else if(logintype.equals("teacher")){             //老师登录
 			Teacher dbMember = teacherService.getByID(id);
 			if(dbMember==null) {
-				mav.addObject("ERROR_MSG_KEY", "用户名不存在");
+				mav.addObject("ERROR_MSG_KEY", "the teacher Id don't exist;");
 				mav.setViewName("redirect:/common/resource_not_found.jsp");
 				System.out.println("redirect2");
 				return mav;
 				}
 			else if(!dbMember.getPassword().equals(password)){
-				mav.addObject("ERROR_MSG_KEY","用户密码不正确");
+				mav.addObject("ERROR_MSG_KEY","the teacher password is wrong");
 				mav.setViewName("redirect:/common/resource_not_found.jsp");
 				return mav;
 			}else{
@@ -110,13 +109,13 @@ public class Login2Controller extends BaseController{
 		else if(logintype.equals("admin")){                     //管理员登录
 			Admin dbMember = adminService.getByID(id);
 			if(dbMember==null) {
-				mav.addObject("ERROR_MSG_KEY", "用户名不存在");
+				mav.addObject("ERROR_MSG_KEY", "the admin Id don't exist1;");
 				mav.setViewName("redirect:/common/resource_not_found.jsp");
 				System.out.println("redirect2");
 				return mav;
 				}
 			else if(!dbMember.getPassword().equals(password)){
-				mav.addObject("ERROR_MSG_KEY","用户密码不正确");
+				mav.addObject("ERROR_MSG_KEY","the admin password is wrong");
 				mav.setViewName("redirect:/common/resource_not_found.jsp");
 				return mav;
 			}else{
@@ -139,4 +138,27 @@ public class Login2Controller extends BaseController{
 		}
 		return mav;
 	}
+	
+	//注销
+	@RequestMapping(value="/doLoginOut",method=RequestMethod.POST)
+	public ModelAndView loginout2(HttpServletRequest request)
+	{
+		System.out.println("in the doLoginOut");
+		ModelAndView mav = new ModelAndView();
+	    String toUrl="/loginOutResult.jsp";     //设置重定向
+	    mav.setViewName("redirect:"+toUrl);
+	        
+	    String type=this.getSessionType(request);
+	    //System.out.println("login_type:"+type);
+	    if(type==null||type.equals("")){
+			mav.addObject("ERROR_MSG_KEY", "you do not login in,can't login out.");
+	    }
+	    else if(type.equals("student")||type.equals("teacher")||type.equals("admin")){
+	    	request.getSession().removeAttribute("LOGIN_TYPE");
+	    	request.getSession().removeAttribute("MEMBER_CONTEXT");
+	    	mav.addObject("ERROR_MSG_KEY", "login out successfully.");
+	    }
+		return mav;
+	}
+
 }
