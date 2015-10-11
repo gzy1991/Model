@@ -15,42 +15,22 @@
 	{
 	padding-left:10px;
 	height:20px;
-	/* background:url(../images/PowerPoint.png); */
 	}
-	.icon
-	{
-		width:20px;
-		height:20px;
-	}
-	.bg
-	{
-		background:#ececec;
-	}
+
 </style>
 
 </head>
 <body>
-	<div ><a href="../file/listCategory">返回课件目录</a></div>
-	<div ><a href="${parent }">返回上一级</a></div>
+	<div ><a href="../video/listCategory">返回课件目录</a></div>
 	<div class="ul">
-	<%%>
-	<c:forEach items="${files}" var="file">
+	<%File[] files=(File[])request.getAttribute("files");
+	for(File file:files){
+	%>
 	<div>
-	<c:if test="${file.isDirectory()}">
-	<!-- <img src="../images/PowerPoint.png" class="icon"></img> -->
-	<span>(文件夹)</span>
-	<a class="dir" href="../file/listFile?filePath=${file.getPath()}">
-	
-	${file.getName()}
-	</a>
-	</c:if>
-	<c:if test="${file.isFile() }">
-	<span>(文件)</span>
-	<!-- <img src="../images/file.png" class="icon"></img> -->
-	<a class="file" href="../file/download?filePath=${file.getPath()}" >${file.getName()}</a>
-	</c:if>
+	<a class="file" href="/Model/view_login/playVideo.jsp?uri=
+	<%=(file.getParentFile().getName()+"/"+file.getName())%>"><%=file.getName() %></a>
 	</div>
-	</c:forEach>	
+	<%} %>
 	</div>
 	<script type="text/javascript">
 	</script>
