@@ -11,6 +11,6 @@
 </head>
 <body>
 	<a href="../file/tListFile">管理课件</a>
-	<a href="../video/tListVideo">管理视频</a>
+	<a href="../video/tList">管理视频</a>
 </body>
 </html>

@@ -39,6 +39,7 @@ public class Teacher extends BaseDomain{
 	private String mobilePhone;
 	private String selfEvaluation;
 	private String fileDirectory;
+	private String videoDirectory;
 	public String getSelfEvaluation() {
 		return selfEvaluation;
 	}
@@ -131,4 +132,11 @@ public class Teacher extends BaseDomain{
 	public void setPassword_captcha(String password_captcha) {
 		this.password_captcha = password_captcha;
 	}
+	public String getVideoDirectory() {
+		return videoDirectory;
+	}
+	public void setVideoDirectory(String videoDirectory) {
+		this.videoDirectory = videoDirectory;
+	}
+	
 }

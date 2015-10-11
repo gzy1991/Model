@@ -45,40 +45,28 @@ public class VideoController extends BaseController {
 		for(int i=0;i<list.size();i++)
 		{
 			Teacher t=list.get(i);
-			if(hasCourseware(getTeacherDir(t))) {
-				fileList.add(t.getFileDirectory());
-				pathList.add("/Model/file/listFile?filePath="+getTeacherDir(t));
+			if(hasCourseware(getVideoDir(t))) {
+				fileList.add(t.getVideoDirectory());
+				pathList.add("/Model/video/list?tId="+t.getTeacherId());
 			}
 		}
-		ModelAndView mav=new ModelAndView("../view_login/listCategory.jsp");
+		ModelAndView mav=new ModelAndView("../view_login/listVideoCategory.jsp");
 		mav.addObject("fileList",fileList);
 		mav.addObject("pathList", pathList);
 		return mav;
 	}
-	@RequestMapping(value="/listFile")
-	public ModelAndView listFile(String filePath,HttpServletRequest request)
+	@RequestMapping(value="/list")
+	public ModelAndView list(int tId,HttpServletRequest request)
 	{
-		String msg="路径出错";
-		if(!validate(filePath)) 
-			return illeageAccess(msg);
-		ModelAndView mav=new ModelAndView("../view_login/listFile.jsp");
-		File file=new File(filePath);
-		String baseDir=getBaseDir();
-		String parent=file.getParent();
-		if(parent.length()<=baseDir.length())
-			parent="../file/listCategory";
-		else parent="../file/listFile?filePath="+parent;
-		if(file.isDirectory())
-		{
-			mav.addObject("filePath", filePath);
-			mav.addObject("parent", parent);
-			File []files=file.listFiles();
-			mav.addObject("files", files);
-			
-		}
+		ModelAndView mav=new ModelAndView("../view_login/listVideo.jsp");
+		Teacher t=teacherDao.get(tId);
+		File file=new File(getVideoDir(t));
+		if(!file.exists()) file.mkdirs();
+		File []files=file.listFiles();
+		mav.addObject("files", files);
 		return mav;
 	}
-	@RequestMapping(value="/download")
+	/*@RequestMapping(value="/download")
 	public ModelAndView download(HttpServletResponse response,String filePath,HttpServletRequest request)
 	{
 		String msg="路径出错";
@@ -113,39 +101,31 @@ public class VideoController extends BaseController {
 				e.printStackTrace();
 			}
 			return null;
-	}
+	}*/
 	
-	@RequestMapping(value="tListFile")
-	public ModelAndView tListFile(String filePath,HttpServletRequest request)
+	@RequestMapping(value="tList")
+	public ModelAndView tList(HttpServletRequest request)
 	{
 		String msg="路径出错";
 		Teacher t=getSessionTeacher(request);
-		String baseDir=getTeacherDir(t);
-		File root=new File(baseDir);
-		if(!root.exists()) root.mkdirs();
-		if(!validate(filePath)) filePath=baseDir; 
-		ModelAndView mav=new ModelAndView("/view_tea/manageFile.jsp");
+		String filePath=getVideoDir(t);
 		File file=new File(filePath);
-		String parent=file.getParent();
-		if(parent.length()<baseDir.length())
-			parent="/Model/file/tListFile?filePath="+baseDir;
-		else parent="/Model/file/tListFile?filePath="+parent;
+	
+		ModelAndView mav=new ModelAndView("/view_tea/manageVideo.jsp");
+		if(!file.exists()) file.mkdirs();
 		if(file.isDirectory())
 		{
-			mav.addObject("filePath", filePath);
-			mav.addObject("parent", parent);
 			File []files=file.listFiles();
 			mav.addObject("files", files);
-			mav.addObject("root", t.getFileDirectory());
-			
+			mav.addObject("root", t.getVideoDirectory());
 		}
 		return mav;
 	}
 	@RequestMapping(value="delete")
-	public  ModelAndView delete(String [] files,HttpServletRequest request,String filePath)
+	public  ModelAndView delete(String [] files,HttpServletRequest request)
 	{
 		Teacher t=getSessionTeacher(request);
-		String baseDir=getTeacherDir(t);
+		String baseDir=getVideoDir(t);
 		for(String file:files)
 		{
 			if(validate(file,baseDir)) {
@@ -153,7 +133,7 @@ public class VideoController extends BaseController {
 				deleteFile(f);
 			}
 		}
-		return tListFile(filePath, request);
+		return tList(request);
 	}
 	private void deleteFile(File file)
 	{
@@ -164,14 +144,14 @@ public class VideoController extends BaseController {
 		file.delete();
 	}
 	@RequestMapping(value="upload",method=RequestMethod.POST)
-	public ModelAndView upload(MultipartFile file,String filePath,HttpServletRequest request)
+	public ModelAndView upload(MultipartFile file,HttpServletRequest request)
 	{
 		String msg="路径出错";
 		String fullName=file.getOriginalFilename();
 		String name=fullName.substring(0,fullName.lastIndexOf("."));
 		String suffix=fullName.substring(fullName.lastIndexOf('.'));
-		if(!validate(filePath)) return illeageAccess(msg);
-		File f=renamePolicy(filePath+"/"+name,suffix);
+		Teacher t=getSessionTeacher(request);
+		File f=renamePolicy(getVideoDir(t)+"/"+name,suffix);
 		InputStream fis = null;
 		FileOutputStream fos = null;
 		try {
@@ -197,36 +177,25 @@ public class VideoController extends BaseController {
 			}
 			
 		}
-		return tListFile(filePath, request);
+		return tList( request);
 	}
-	@RequestMapping(value="newFolder")
-	public ModelAndView newFolder(HttpServletRequest request,String filePath,String fileName)
-	{
-		Teacher t=getSessionTeacher(request);
-		String baseDir=getTeacherDir(t);
-		if(validate(filePath, baseDir))
-		{
-			File f=renamePolicy(filePath+"/"+fileName);
-			f.mkdir();
-		}
-		return tListFile(filePath, request);
-	}
+	
 	@RequestMapping(value="changeRoot")
-	public ModelAndView changeRoot(HttpServletRequest request,String root,String filePath)
+	public ModelAndView changeRoot(HttpServletRequest request,String root)
 	{
 		
 		Teacher t=getSessionTeacher(request);
-		File f=new File(getTeacherDir(t));
+		File f=new File(getVideoDir(t));
 		if(!f.exists()) return illeageAccess("你的文件夹不存在");
-		t.setFileDirectory(root);
+		t.setVideoDirectory(root);
 		teacherDao.update(t);
-		return tListFile(filePath, request);
+		return tList( request);
 	}
 	private String getBaseDir()
 	{
-		return servletContext.getRealPath("/teaFiles");
+		return servletContext.getRealPath("/teaVideos");
 	}
-	private String getTeacherDir(Teacher t)
+	private String getVideoDir(Teacher t)
 	{
 		return getBaseDir()+"\\"+t.getTeacherId();
 	}
@@ -259,17 +228,7 @@ public class VideoController extends BaseController {
 		if(s==null||s.length==0) return false;
 		return true;
 	}
-	private File renamePolicy(String filePath)
-	{
-		int i=1;
-		File f=new File(filePath);
-		while(f.exists())
-		{
-			f=new File(filePath+'('+i+')');
-			i++;
-		}
-		return f;
-	}
+
 	private File renamePolicy(String filePath,String suffix)
 	{
 		int i=1;
