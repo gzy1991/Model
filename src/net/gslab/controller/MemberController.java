@@ -89,7 +89,7 @@ public class MemberController extends BaseController{
 		}
 	}
 	
-	//查找单个学生， 测试通过例子：”http://localhost:8080/Model/member/findOne?id=112“
+	//查找单个学生， 测试通过，例子：”http://localhost:8080/Model/member/findOne?id=112“
 	@RequestMapping(value="/findOne",method=RequestMethod.GET)
 	public @ResponseBody Member findOne(String id){
 		int i=Integer.parseInt(id);
@@ -109,7 +109,7 @@ public class MemberController extends BaseController{
 		
 		//查找全部学生，按参数返回分页,测试通过。例子：”http://localhost:8080/Model/member/findOnePageMember?pageIndex=1&pageSize=5“
 		@RequestMapping(value="/findOnePageMember",method=RequestMethod.GET)
-		public @ResponseBody List<Member> findOnePageMember(int pageIndex,int pageSize){
+		public @ResponseBody Page<Member> findOnePageMember(int pageIndex,int pageSize){
 			/**
 			 * 
 			 * @param pageIndex   请求的页码
@@ -117,8 +117,8 @@ public class MemberController extends BaseController{
 	         * @param 
 			 */
 			Page page= memberService.getPage(pageIndex,pageSize);   //返回学生
-			List<Member> members=page.getData();
-			return members;
+			/*List<Member> members=page.getData();*/
+			return page;
 		}		
 		
 		//返回totalsize，即数据库里面的学生总数,已测试，可以使用

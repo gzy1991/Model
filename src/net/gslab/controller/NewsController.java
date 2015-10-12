@@ -84,10 +84,8 @@ public class NewsController extends BaseController{
 			int id= newsService.listNews().size()+1;
 			news.setNewsId(id);
 			newsService.save(news);
-			//System.out.print("新闻发布成功！");	
 			return "success!";
 		}
-		//System.out.print("新闻发布失败！");
 		return "sorry,faild!";
 	}
 	
@@ -111,23 +109,19 @@ public class NewsController extends BaseController{
 		 List list_temp=page.getData();
 		 list_temp.add(page.getTotalCount());
 		 return  list_temp;
-		//return newsService.getPage("from News e where e.newsName='me'",pageIndex); // 使用默认的pageSize
-		//return newsService.getPage("from News e where e.newsName='me'",pageIndex,1);//自定义pageSize为1
 	}
-       
         //分页2，返回分页，附带新闻总数，已测试，可以使用；
         //参数pageIndex指定是第几页
        @RequestMapping(value = "/getPage_2", method = RequestMethod.GET)
        public @ResponseBody Page<News> list2(HttpServletRequest request,
-   			HttpServletResponse response,@RequestParam(value="pageIndex")Integer pageIndex)
+   			HttpServletResponse response,@RequestParam(value="pageIndex")Integer pageIndex,  int pageSize)
    			{
     	   /**
    		 * @param pageIndex   请求的页码
             * @param pageSize   每页的记录条数
             * @param 
    		 */
-    	   Page page=newsService.getPage("from News n order by n.publishDate desc",pageIndex,12);  //自定义pageSize为2
-    	   
+    	   Page page=newsService.getPage("from News n order by n.publishDate desc",pageIndex,pageSize);  
     	   return page;
    			}
        
@@ -136,8 +130,6 @@ public class NewsController extends BaseController{
        public @ResponseBody  long getTotalcount()
        {
     	   return  newsService.getPage(1).getTotalCount();
-    	   
-    	   
        }
        
      //分页，返回首页显示的9条最新新闻
@@ -153,7 +145,6 @@ public class NewsController extends BaseController{
 		 */
     	Page page=newsService.getPage("from News n order by n.publishDate desc",1,9); 	//按日期排序	
 		List<News> data=page.getData();
-		
 		//把不用的属性设置为null(主要是content，其余占用的空间小，减少占用的带宽)
 		for(int i=0;i<data.size();i++)
 		{
@@ -161,7 +152,21 @@ public class NewsController extends BaseController{
 			temp.setContent(null);
 		}		
 		return page.getData();
-		
+	}
+       
+     //分页，返回首页显示的3条最新新闻，测试过，可以用
+       @RequestMapping(value = "/get3Page", method = RequestMethod.GET)
+	   public @ResponseBody List<News>  get3Page(HttpServletRequest request,
+			HttpServletResponse response) {
+    	   //,@RequestParam(value="pageIndex")Integer pageIndex
+		/** 
+		 * 
+		 * @param pageIndex   请求的页码 
+         * @param pageSize   每页的记录条数 
+         * @param 
+		 */ 
+    	Page page=newsService.getPage("from News n order by n.publishDate desc",1,3); 	//按日期排序	
+		return page.getData();
 	}
        
     //删除新闻,前台传入ID，根据ID删除新闻，删除后，检验是否删除成功
