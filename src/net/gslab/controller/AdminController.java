@@ -147,7 +147,7 @@ public class AdminController extends BaseController{
 		return admin;
 	}
 	
-	//查找全部admin，返回json串，  例子："http://localhost:8080/Model/admin/findAllAdmin?pageIndex=1&pageSize=5"
+	//查找全部admin分页，返回json串，  例子："http://localhost:8080/Model/admin/findAllAdmin?pageIndex=1&pageSize=5"
 	@RequestMapping(value="/findAllAdmin",method=RequestMethod.GET)
 	public @ResponseBody Page<Admin> findAllAdmin(int pageIndex,  int pageSize){
 		/**

@@ -27,6 +27,7 @@ public class Teacher extends BaseDomain{
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date   birthDate;
 	private String password;
+	
 	private String password_captcha;  //密码 验证码，重置密码时会用到这个字段
 	
 	private String address;
@@ -47,7 +48,9 @@ public class Teacher extends BaseDomain{
 		this.selfEvaluation = selfEvaluation;
 	}
 	
-	
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public int getTeacherId() {
 		return teacherId;
 	}
@@ -69,7 +72,7 @@ public class Teacher extends BaseDomain{
 	public String getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
+	public void teacher(String password) {
 		this.password = password;
 	}
 	public String getAddress() {
