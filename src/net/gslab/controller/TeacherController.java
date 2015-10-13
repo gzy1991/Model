@@ -20,6 +20,7 @@ import net.gslab.entity.Teacher;
 import net.gslab.service.TeacherService;
 import net.gslab.service.UserService;
 import net.gslab.setting.Page;
+import net.gslab.tools.Email;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -175,8 +176,8 @@ public class TeacherController extends BaseController {
 			return mav;
 		}
 	}
-	
-	//查找单个老师
+	 
+	//查找单个老师 测试成功
 	@RequestMapping(value="/findOne")
 	public @ResponseBody Teacher findOne(int teacherId,Model m)
 	{
@@ -187,7 +188,7 @@ public class TeacherController extends BaseController {
 			return t;
 		}
 	}
-	//查找一页老师
+	//查找一页老师 ,测试成功，例：http://localhost:8080/Model/teacher/findPage?pageIndex=1&pageSize=4
 	@RequestMapping(value="/findPage")
 	public @ResponseBody Page<Teacher> findPage(int pageIndex,  int pageSize,Model m)
 	{
@@ -200,25 +201,144 @@ public class TeacherController extends BaseController {
 		return page;
 	}
 	
-	//修改老师信息
+	//修改老师信息 ，修改除密码以外的其他信息，账户名和id是不可以修改的。）,修改：地址、年级、班级、生日、性别、专业、电话、QQ
 	@RequestMapping(value="/changeInf")
-	public boolean changeInf(Teacher t)
+	public ModelAndView changeInf(HttpServletRequest request,Teacher teacher)
 	{
-		Teacher pre=teacherService.find(t.getTeacherId());
-		t.setPassword(pre.getPassword());
-		teacherService.update(t);
-		return true;
+		ModelAndView mav = new ModelAndView("redirect:"+"/view_tea/test.jsp");  //设置重定向
+		
+		String login_type=this.getSessionType(request);
+		Teacher login_teacher=this.getSessionTeacher(request);
+		if(!login_type.equals("teacher")||login_teacher==null){
+			mav.addObject("ERROR_MSG_KEY", "sorry, user do not login , or the login type is not 'teacher'.");
+		    return mav;
+		}
+		Teacher dbTeacher=teacherService.getByID(login_teacher.getTeacherId());
+		if(dbTeacher==null){
+			mav.addObject("ERROR_MSG_KEY", "sorry, the datebase error , the teacher does not exist.");
+		    return mav;
+		}
+		else{
+			if(!teacher.getAddress().equals(""))
+				dbTeacher.setAddress(teacher.getAddress());
+			if(teacher.getBirthDate()!=null)
+				dbTeacher.setBirthDate(teacher.getBirthDate());
+			if(!teacher.getGender().equals(""))
+				dbTeacher.setGender(teacher.getGender());;
+			if(!teacher.getMobilePhone().equals(""))
+				dbTeacher.setMobilePhone(teacher.getMobilePhone());;
+			if(!teacher.getQQ().equals(""))
+				dbTeacher.setQQ(teacher.getQQ());;
+			if(!teacher.getSelfEvaluation().equals(""))
+				dbTeacher.setSelfEvaluation(teacher.getSelfEvaluation());;
+		}
+		teacherDao.update(dbTeacher); //把修改后的信息，写入数据库
+		this.setSessionTeacher(request, dbTeacher); //因为对登陆用户的信息进行了修改，所以要对session里面的对象也进行修改
+		mav.addObject("ERROR_MSG_KEY", "modify teacher success!");
+		return mav;
 	}
-	//修改密码
-	@RequestMapping("changePsw")
-	public String changePsw(Teacher t,String psw1,String psw2)
-	{
-		if(psw1==null||!psw1.equals(psw2)) return "两次输入密码不一致";
-		Teacher pre=teacherService.find(t.getTeacherId());
-		if(!pre.getPassword().equals(t.getPassword())) return "原密码错误";
-		t.setPassword(psw1);
-		return "修改密码成功";
-	}
-	//绑定邮箱
 	
+	//直接修改密码：老师登陆后台，直接修改密码
+	@RequestMapping(value="changePsw",method=RequestMethod.POST)
+	public ModelAndView changePsw(HttpServletRequest request,String password,String passwordNew,String passwordNew2)
+	{
+		ModelAndView mav = new ModelAndView("redirect:"+"/view_tea/test.jsp");  //设置重定向
+		String login_type=this.getSessionType(request);
+		Teacher login_teacher=this.getSessionTeacher(request);
+		if(!login_type.equals("teacher")||login_teacher==null){
+			mav.addObject("ERROR_MSG_KEY", "sorry, user do not login , or the login type is not 'teacher'.");
+		    return mav;
+		}
+		Teacher dbTeacher=teacherService.getByID(login_teacher.getTeacherId());
+		if(dbTeacher==null){
+			mav.addObject("ERROR_MSG_KEY", "sorry, the datebase error , the teacher does not exist.");
+		    return mav;
+		}
+		else{
+			if(dbTeacher.getPassword().equals(password)){
+				if(passwordNew.equals(passwordNew2)){
+					dbTeacher.setPassword(passwordNew);
+					teacherDao.update(dbTeacher);
+					this.setSessionTeacher(request, dbTeacher);
+					mav.addObject("ERROR_MSG_KEY", "successed to modify  password !");
+					return mav;
+				}
+				else{
+					mav.addObject("ERROR_MSG_KEY", "new passwords are not same,failed");
+					return mav;
+				}
+			}
+			else{
+				mav.addObject("ERROR_MSG_KEY", "old password is wrong, failed to modify!");
+				return mav;
+			}
+		}
+	}
+	
+	//设置邮箱，老师登陆后设置邮箱，通知自动设置邮箱状态为“未激活”
+	@RequestMapping(value="/setEmail",method=RequestMethod.POST)
+	public ModelAndView setEmail(HttpServletRequest request,String teacherEmail)
+	{
+		ModelAndView mav = new ModelAndView("redirect:"+"/view_tea/test.jsp");  //设置重定向
+		
+		String login_type=this.getSessionType(request);
+		Teacher login_teacher=this.getSessionTeacher(request);
+		if(!login_type.equals("teacher")||login_teacher==null){
+			mav.addObject("ERROR_MSG_KEY", "sorry, user do not login , or the login type is not 'teacher'.");
+		    return mav;
+		}
+		Teacher dbTeacher=teacherService.getByID(login_teacher.getTeacherId());
+		if(dbTeacher==null){
+			mav.addObject("ERROR_MSG_KEY", "sorry, the datebase error , the teacher does not exist.");
+		    return mav;
+		}
+	    else {
+	    	dbTeacher.setEmail(teacherEmail);   
+	    	dbTeacher.setEmail_active("0");   //设置邮箱状态为"未激活"
+	    	teacherDao.update(dbTeacher);  //把修改后的信息，写入数据库
+	    	this.setSessionTeacher(request, dbTeacher);  //因为对登陆用户的信息进行了修改，所以要对session里面的对象也进行修改
+	    	mav.addObject("ERROR_MSG_KEY", "email:"+teacherEmail+"  , set success!  Please active!");
+	    	return mav;
+	    }
+	}
+	
+	
+	
+	//绑定邮箱 :激活邮箱->发送邮件  ,把验证码写入数据库
+	@RequestMapping(value="/activeEmail_send",method=RequestMethod.POST)
+	public ModelAndView activeEmail(HttpServletRequest request)
+	{			
+		ModelAndView mav = new ModelAndView("redirect:"+"/view_tea/test.jsp");  //设置重定向
+        
+		String login_type=this.getSessionType(request);
+		Teacher login_teacher=this.getSessionTeacher(request);
+		if(!login_type.equals("teacher")||login_teacher==null){
+			mav.addObject("ERROR_MSG_KEY", "sorry, user do not login , or the login type is not 'teacher'.");
+		    return mav;
+		}
+		Teacher dbTeacher=teacherService.getByID(login_teacher.getTeacherId());
+		if(dbTeacher==null){
+			mav.addObject("ERROR_MSG_KEY", "sorry, the datebase error , the teacher does not exist.");
+		    return mav;
+		}
+		String emailAddress=dbTeacher.getEmail();
+        if(emailAddress.equals("")){  //邮箱不存在
+        	mav.addObject("ERROR_MSG_KEY", "email does not exist; failed to send email!");
+        	return mav;
+        }else if(dbTeacher.getEmail_active().equals("1")){  //邮箱已经激活
+        	mav.addObject("ERROR_MSG_KEY", "email has been actived, failed to send email again!");
+        	return mav;
+        }
+        else{
+        	Email t_email=new Email();
+        	String captch=Email.verification_code();  //生成验证码
+        	String msg=Email.generate_msg("teacher",Integer.toString(dbTeacher.getTeacherId()),captch);//生成邮件正文
+        	Email.sendMessage(emailAddress, "激活邮件", msg); //发送邮件
+        	dbTeacher.setEmail_captcha(captch);         //设置验证码
+        	teacherDao.update(dbTeacher);            //验证码写入数据库
+	    	this.setSessionTeacher(request, dbTeacher);  //因为对登陆用户的信息进行了修改，所以要对session里面的对象也进行修改
+        	mav.addObject("ERROR_MSG_KEY", "email has been sent ,please check! ");
+        }
+		return mav;
+	}
 }
