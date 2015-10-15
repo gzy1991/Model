@@ -14,10 +14,18 @@
 </head>
 
 <body>
+
+<h1>添加单个学生</h1>
+<hr/>
    <form action="/Model/member/adduser" class="adduser" method="post" >
     <div class="formBlock">           
-    	 <label for="loadname">用户名:</label>
-    	 <input name="loadname" id="loadname" placeholder="请输入登陆账号"  class="formElement" >
+    	 <label for="memberId">登陆账户:</label>
+    	 <input name="memberId" id="memberId" placeholder="请输入登陆账号"  class="formElement" >
+     </div>
+     
+     <div class="formBlock">
+    	 <label for="password">用户姓名:</label>
+         <input name="name"  id="name"  placeholder="请输入用户姓名" class="formElement" >
      </div>
      
      <div class="formBlock">

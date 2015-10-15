@@ -50,21 +50,22 @@ public class MemberController extends BaseController{
 		this.memberService = memberService;
 	}
 	
-	//添加单个学生
+	//添加单个学生  ,注意。学生的属性中,memberId是登陆账户, loadname与memberId相同  ,memberName是学生姓名 ,password是密码
 	@RequestMapping(value="/adduser",method=RequestMethod.POST)
-	public ModelAndView adduser(String loadname,String password,String password2){
+	public ModelAndView adduser(String memberId,String name,String password,String password2){
 		ModelAndView mav = new ModelAndView();
 	    String toUrl="/view_admin/test.jsp";     //设置重定向
 	    mav.setViewName("redirect:"+toUrl);
 
 		Member member=new Member();
 		if(password.equals(password2)){
-			member.setLoadname(loadname);
+			member.setLoadname(memberId);
 			member.setPassword(password);
-			int id=Integer.parseInt(loadname);
+			member.setMemberName(name);
+			int id=Integer.parseInt(memberId);
 			member.setMemberId(id);
 			memberDao.save(member);
-	    	mav.addObject("ERROR_MSG_KEY", "add student "+loadname+" success!");
+	    	mav.addObject("ERROR_MSG_KEY", "add student "+memberId+" success!");
 	    	return mav;
 		}else{
 			mav.addObject("ERROR_MSG_KEY", "passwords are not same, failed!");

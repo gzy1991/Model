@@ -7,6 +7,7 @@
 <title>添加admin</title>
 </head>
 <body>
+<hr/>
 表单：添加管理员 </br>
 <form action="../admin/addAdmin" class="Admin" method="POST" >
        管理员id：<input type="text" name="adminId"  ><br/> 
