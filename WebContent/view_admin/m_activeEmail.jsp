@@ -11,15 +11,30 @@
         out.println("已登陆admin的姓名:"+admin.getAdminName());
         out.print("</br>");
         out.println("已登陆admin的ID:"+admin.getAdminId());out.print("</br>");
-        out.println("邮箱："+admin.getEmail());out.print("</br>");
-        out.println("邮箱状态："+admin.getEmail_active()+"</br>"+"注意：0代表未激活，1代表激活");out.print("</br>");
-        %></br>
+        %></br><hr/>
 
-          <form action="../admin/activeEmail_send" class="email" method="POST">
-       
-                                发送激活邮件：<input type="submit" name="submit" value="发送激活邮件 " />   
-  
-          </form>
+        <%if(admin.getEmail()==null||admin.getEmail().equals("")) 
+        	{out.print("sorry，您当前未设置邮箱！无法激活");}
+        else{
+        	out.println("已设置的邮箱："+admin.getEmail());
+        	out.print("邮箱的激活状态是：");
+        	if(admin.getEmail_active()==null||admin.getEmail_active().equals("0")){
+        		out.print("未激活."+"</br>"+"你可以点击下面的“发送激活邮件”按钮，进行激活！");
+        	%>
+        	<hr/>
+        	<form action="../admin/activeEmail_send" class="email" method="POST">
+                                       发送激活邮件：<input type="submit" name="submit" value="发送激活邮件 " />   
+            </form>
+        	<% }
+        	else {
+        		out.print("已激活，无需重复激活");
+        	}
+        }
+        
+        %>
+
+
+          
         
 
 </body>

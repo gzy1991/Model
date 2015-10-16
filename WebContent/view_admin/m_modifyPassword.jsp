@@ -7,11 +7,8 @@
 <title>直接修改密码</title>
 </head>
 <body>
-
-<%Admin admin=(Admin)session.getAttribute("MEMBER_CONTEXT"); 
-        out.println("已登陆admin的姓名:"+admin.getAdminName());
-        out.print("</br>");
-        out.println("已登陆admin的ID:"+admin.getAdminId());
+<h1>直接修改密码</h1><hr/>
+        <%Admin admin=(Admin)session.getAttribute("MEMBER_CONTEXT"); 
         %></br>
         
 <form action="../admin/modifyPass_1" class="Member" method="POST">
@@ -19,7 +16,7 @@
 
       新密码：<input type="password" name="passwordNew" ><br/> 
 
-      重复新密码：<input type="password" name="passwordNew2" ><br/> 
+      重复新密码：<input type="password" name="passwordNew2" ><br/> <hr/>
   <input type="submit" name="submit" value="保存" />   
 </form>
 

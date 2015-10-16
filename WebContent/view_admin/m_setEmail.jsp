@@ -6,19 +6,31 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>admin添加或修改邮箱</title>
 
- 
+ <h1>邮箱管理</h1><hr/>
 </head>
 <body>
-<%Admin admin=(Admin)session.getAttribute("MEMBER_CONTEXT"); 
-        out.println("已登陆admin的姓名:"+admin.getAdminName());
-        out.print("</br>");
-        out.println("已登陆admin的ID:"+admin.getAdminId());
+        <%Admin admin=(Admin)session.getAttribute("MEMBER_CONTEXT"); 
         %></br>
 
+        <%if(admin.getEmail()==null||admin.getEmail().equals("")) 
+        	{out.print("sorry，您当前未设置邮箱！<hr/>");}
+        else{
+        	out.println("您当前设置的邮箱是："+admin.getEmail());
+        	out.print("</br>");
+        	out.print("邮箱的激活状态是：");
+        	if(admin.getEmail_active()==null||admin.getEmail_active().equals("0")){
+        		out.print("未激活");
+        	}
+        	else {
+        		out.print("已激活");
+        	}
+        }
+        %>
+        <hr/>
   <form action="../admin/setEmail" class="email" method="POST">
-       邮箱：<input type="text" name="adminEmail" placeholder=<%=admin.getEmail()%>  ><br/> 
+       设置新邮箱：<input type="text" name="adminEmail" placeholder=<%=admin.getEmail()%>  ><br/> 
       
-  <input type="submit" name="submit" value="保存" />   
+  <input type="submit" name="submit" value="设置" />   
   </form>
 
   </body>

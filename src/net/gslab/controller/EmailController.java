@@ -59,7 +59,7 @@ public class EmailController extends BaseController{
             if(dbMember!=null){                                       //如果学生存在
            	 if(dbMember.getEmail_active().equals("1")){           //如果邮件已经激活了
    				 //this.setSessionMember(request, dbMember);          //修改session
-           		 mav.addObject("ERROR_MSG_KEY", "email "+dbMember.getEmail()+"have been actived before now!");
+           		 mav.addObject("ERROR_MSG_KEY", "email "+dbMember.getEmail()+" have been actived before now!");
    			 }
            	 else if(dbMember.getEmail_captcha().equals(ca)){           //如果验证码匹配，则成功激活
            		 dbMember.setEmail_active("1");                    //修改激活状态

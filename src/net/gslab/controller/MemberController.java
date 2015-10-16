@@ -50,21 +50,22 @@ public class MemberController extends BaseController{
 		this.memberService = memberService;
 	}
 	
-	//添加单个学生
+	//添加单个学生  ,注意。学生的属性中,memberId是登陆账户, loadname与memberId相同  ,memberName是学生姓名 ,password是密码
 	@RequestMapping(value="/adduser",method=RequestMethod.POST)
-	public ModelAndView adduser(String loadname,String password,String password2){
+	public ModelAndView adduser(String memberId,String name,String password,String password2){
 		ModelAndView mav = new ModelAndView();
 	    String toUrl="/view_admin/test.jsp";     //设置重定向
 	    mav.setViewName("redirect:"+toUrl);
 
 		Member member=new Member();
 		if(password.equals(password2)){
-			member.setLoadname(loadname);
+			member.setLoadname(memberId);
 			member.setPassword(password);
-			int id=Integer.parseInt(loadname);
+			member.setMemberName(name);
+			int id=Integer.parseInt(memberId);
 			member.setMemberId(id);
 			memberDao.save(member);
-	    	mav.addObject("ERROR_MSG_KEY", "add student "+loadname+" success!");
+	    	mav.addObject("ERROR_MSG_KEY", "add student "+memberId+" success!");
 	    	return mav;
 		}else{
 			mav.addObject("ERROR_MSG_KEY", "passwords are not same, failed!");
@@ -89,7 +90,7 @@ public class MemberController extends BaseController{
 		}
 	}
 	
-	//查找单个学生， 测试通过例子：”http://localhost:8080/Model/member/findOne?id=112“
+	//查找单个学生， 测试通过，例子：”http://localhost:8080/Model/member/findOne?id=112“
 	@RequestMapping(value="/findOne",method=RequestMethod.GET)
 	public @ResponseBody Member findOne(String id){
 		int i=Integer.parseInt(id);
@@ -109,7 +110,7 @@ public class MemberController extends BaseController{
 		
 		//查找全部学生，按参数返回分页,测试通过。例子：”http://localhost:8080/Model/member/findOnePageMember?pageIndex=1&pageSize=5“
 		@RequestMapping(value="/findOnePageMember",method=RequestMethod.GET)
-		public @ResponseBody List<Member> findOnePageMember(int pageIndex,int pageSize){
+		public @ResponseBody Page<Member> findOnePageMember(int pageIndex,int pageSize){
 			/**
 			 * 
 			 * @param pageIndex   请求的页码
@@ -117,8 +118,8 @@ public class MemberController extends BaseController{
 	         * @param 
 			 */
 			Page page= memberService.getPage(pageIndex,pageSize);   //返回学生
-			List<Member> members=page.getData();
-			return members;
+			/*List<Member> members=page.getData();*/
+			return page;
 		}		
 		
 		//返回totalsize，即数据库里面的学生总数,已测试，可以使用

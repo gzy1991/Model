@@ -147,18 +147,18 @@ public class AdminController extends BaseController{
 		return admin;
 	}
 	
-	//查找全部admin，返回json串，  例子："http://localhost:8080/Model/admin/findAllAdmin?pageIndex=1&pageSize=5"
+	//查找全部admin分页，返回json串，  例子："http://localhost:8080/Model/admin/findAllAdmin?pageIndex=1&pageSize=5"
 	@RequestMapping(value="/findAllAdmin",method=RequestMethod.GET)
-	public @ResponseBody List<Admin> findAllAdmin(int pageIndex,  int pageSize){
+	public @ResponseBody Page<Admin> findAllAdmin(int pageIndex,  int pageSize){
 		/**
 		 * @param pageIndex   请求的页码
          * @param pageSize   每页的记录条数
          * @param 
 		 */
 		Page page= adminDao.getPage(pageIndex,pageSize);
-		int max=page.getPageSize();
-		List<Admin> admins=page.getData();
-		return admins;
+		/*int max=page.getPageSize();
+		List<Admin> admins=page.getData();*/
+		return page;
 	}
 	
 	

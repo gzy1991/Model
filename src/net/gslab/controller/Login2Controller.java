@@ -100,7 +100,7 @@ public class Login2Controller extends BaseController{
 				mav.setViewName("home");//逻辑视图，与applicationContext-mvc下定义的viewResolver对应，不光前面，还有后面的Jsp也不能加
 				System.out.println("用户申请跳转到页面："+toUrl);
 				if(StringUtils.isEmpty(toUrl)){
-					toUrl="/view/home.jsp";  //设置重定向
+					toUrl="a_sy.html";  //设置重定向
 				}
 				mav.setViewName("redirect:"+toUrl);
 			}

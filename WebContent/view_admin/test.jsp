@@ -9,11 +9,13 @@
 <body>
      <%
      Admin admin=(Admin) session.getAttribute("MEMBER_CONTEXT");  %></br>
-     <%if(admin!=null){
+     
+<%--      <%if(admin!=null){
      out.println("已登陆管理员的ID:"+admin.getAdminId());
      out.print("</br>");
-     out.println("已登陆管理员的姓名:"+admin.getAdminName()); }%></br>
-     
+     out.println("已登陆管理员的姓名:"+admin.getAdminName()); }
+     %></br>
+ --%>     
                  处理结果：ERROR_MSG_KEY:   <%=request.getParameter("ERROR_MSG_KEY")%>
 
 </body>
