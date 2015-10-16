@@ -7,12 +7,13 @@
 <title>添加teacher</title>
 </head>
 <body>
-表单：添加老师 </br>
+<h1>添加单个老师</h1>
+<hr/>
 <form action="../teacher/addOne" class="Teacher" method="POST" >
-       老师id：<input type="text" name="teacherId"  ><br/> 
+       老师 id ：<input type="text" name="teacherId"  ><br/> 
        老师姓名：<input type="text" name="teacherName"  ><br/>      
-       老师密码：<input type="password" name="password"  ><br/> 
-       重复老师密码：<input type="password" name="password2"  ><br/> 
+       密                码：<input type="password" name="password"  ><br/> 
+       重复密码：<input type="password" name="password2"  ><br/> <hr/>
   <input type="submit" name="submit" value="添加" />   
 </form>
         

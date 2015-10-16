@@ -14,7 +14,7 @@
       </form>
        </br> </br> </br> </br> </br><hr/>
                    注意：excel文件的格式应该是 “id	  loadname	 memberName	 password” 
-                   下图供参考：<img alt="excel参考" src="../images/uploadExcel_example.png">
+                   下图供参考： </br> </br><img alt="excel参考" src="../images/uploadExcel_example.png">
         
         
 

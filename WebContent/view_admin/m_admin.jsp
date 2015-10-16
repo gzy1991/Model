@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="net.gslab.entity.Admin"%>
+    pageEncoding="UTF-8" import="net.gslab.entity.Admin" import="java.util.*"%>
+<%@ page import="javax.servlet.*,java.text.*" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -14,7 +15,12 @@
 
 <div class="logo"></div>
   <div class="time">
-	<span>今日时间：</span><span class="date"> 2015年3月13日 星期三</span>
+	<span>今日时间：</span>
+	<%Date dNow=new Date() ;
+	SimpleDateFormat ft = 
+	new SimpleDateFormat ("yyyy.MM.dd  HH:mm   E");
+	out.print(  ft.format(dNow) );
+	%>
   </div>
   <div class="welcome">
 	<span>admin:<%=admin.getAdminName()%>您好！</span><span><a>账号设置</a></span><span><a>注销</a></span>
@@ -35,33 +41,36 @@
 	<div class="menuList" id="managerStudent">
 		<ul>
 			<li>学生管理</li>
-			<li><a href="" target="iframe">查看学生</a></li>
+			<li><a href="m_studentList.jsp" class="menuListA" target="iframe">查看学生</a></li>
 			<li><a href="m_addStudent.jsp" class="menuListA"target="iframe">添加学生</a></li>
 			<li><a href="excelUpload.jsp" class="menuListA"target="iframe">批量添加</a></li>
+			<li><a href="m_deleteStudent.jsp" class="menuListA"target="iframe">删除学生</a></li>
 
 		</ul>
 	</div>
 	<div class="menuList" id="managerTeacher">
 		<ul>
 			<li>教师管理</li>
-			<li><a href="userListUnAuth" target="iframe">未处理信息</a></li>
-			<li><a href="userListAuth" class="menuListA"target="iframe">已处理信息</a></li>
+			<li><a href="m_teacherList.jsp" target="iframe">查看教师</a></li>
+			<li><a href="m_teacherAdd.jsp" class="menuListA"target="iframe">添加教师</a></li>
+			<li><a href="m_teacherExcelUpload.jsp" class="menuListA"target="iframe">批量添加</a></li>
+			
 		</ul>
 	</div>
 	<div class="menuList" id="managerAdmin">
 		<ul>
 			<li>管理员管理</li>
-			<li><a href="" target="iframe">基本设置</a></li>
-			<li><a href="" class="menuListA"target="iframe">……</a></li>
-			<li><a href="" class="menuListA"target="iframe">……</a></li>
+			<li><a href="" target="iframe">查看管理员</a></li>
+			<li><a href="m_addAdmin.jsp" class="menuListA"target="iframe">添加管理员</a></li>
+			<li><a href="m_deleteAdmin.jsp" class="menuListA"target="iframe">删除管理员</a></li>
 		</ul>
 	</div>	
 	<div class="menuList" id="managerNews">
 		<ul>
 			<li>新闻管理</li>
-			<li><a href="" target="iframe">……</a></li>
-			<li><a href="" class="menuListA"target="iframe">……</a></li>
-			<li><a href=""  class="menuListA"target="iframe">……</a></li>
+			<li><a href="" target="iframe">查看新闻</a></li>
+			<li><a href="m_newsAdd.jsp" class="menuListA"target="iframe">添加新闻</a></li>
+			<li><a href="m_newsDelete.jsp"  class="menuListA"target="iframe">删除新闻</a></li>
 		</ul>
 	</div>	
 	<div class="menuList" id="managerSelf">

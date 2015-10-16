@@ -7,11 +7,14 @@
 <title>老师信息批量上传</title>
 </head>
 <body>
+ <h1>批量添加老师</h1><hr/>
       <form action="../teacher/uploadExcel" method="post" enctype="multipart/form-data" >
-        上传人名:<input type="text" name="name" /><br/>      
-          上传文件:<input type="file" name="file" /><br/>
-          <input type="submit" name="submit" value="提交" />
+                    上传文件:<input type="file" name="file" /><br/>
+            <input type="submit" name="submit" value="提交" />
       </form>
+      </br> </br> </br> </br> </br><hr/>
+                   注意：excel文件的格式应该是 “ id		teacherName		password   ” 
+                   下图供参考： </br> </br><img alt="excel参考" src="../images/uploadExcel_Teacher_example.png">
         
 
 

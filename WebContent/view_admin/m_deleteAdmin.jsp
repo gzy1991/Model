@@ -7,12 +7,14 @@
 <title>删除admin</title>
 </head>
 <body>
-      表单：删除管理员 </br>
+<h1>删除一个管理员</h1>
+  </br><hr/>
 <form action="../admin/deleteAdmin" class="Admin" method="POST" >
        管理员id：<input type="text" name="adminId"  ><br/> 
-       管理员标记：<input type="text" name="addAdminMark"  ><br/>  
+       管理员标记：<input type="text" name="addAdminMark"  ><br/>  <hr/>
   <input type="submit" name="submit" value="删除" />   
 </form>
+              注意：由于管理员的特殊性，所以添加管理员和删除管理员都需要一个特殊的标记。
       
 </body>
 </html>

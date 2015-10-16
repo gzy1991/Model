@@ -7,14 +7,13 @@
 <title>删除学生</title>
 </head>
 <body>
+<h1>删除学生</h1>
+ </br><hr/>
         <%Admin admin=(Admin)session.getAttribute("MEMBER_CONTEXT"); 
-        out.println("已登陆admin的姓名:"+admin.getAdminName());
-        out.print("</br>");
-        out.println("已登陆admin的ID:"+admin.getAdminId());out.print("</br>");
         %></br>
 
 <form action="/Model/member/deleteMember" class="deleteMember" method="POST" >
-     准备删除的学生的id：<input type="text" name="studentId"  ><br/> 
+     准备删除的学生的id：<input type="text" name="studentId"  ><br/> <hr/>
   <input type="submit" name="submit" value="删除" />   
 </form>
         

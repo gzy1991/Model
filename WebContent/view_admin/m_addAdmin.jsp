@@ -8,16 +8,17 @@
 </head>
 <body>
 <hr/>
-表单：添加管理员 </br>
+<h1>添加一个管理员</h1>
+ </br><hr/>
 <form action="../admin/addAdmin" class="Admin" method="POST" >
        管理员id：<input type="text" name="adminId"  ><br/> 
        管理员姓名：<input type="text" name="adminName"  ><br/>      
        管理员密码：<input type="text" name="password"  ><br/> 
        重复管理员密码：<input type="text" name="password2"  ><br/> 
-       管理员添加标记：<input type="text" name="addAdminMark"  ><br/>
+       管理员添加标记：<input type="text" name="addAdminMark"  ><br/><hr/>
   <input type="submit" name="submit" value="添加" />   
 </form>
         
-        
+        注意：由于管理员的特殊性，所以添加管理员和删除管理员都需要一个特殊的标记。
 </body>
 </html>
