@@ -25,9 +25,9 @@ package net.gslab.setting;
 	   /**
 	    * 每页的记录数，分页用的，过滤器中，一般用不上
 	    */
-	   public static final int BOARD=0,NEWS=1,POST=2,TOPIC=3,USER=4;
-	   public static final int []PAGE_SIZE={3,3,3,3,3};
-	   public static final String[] TABLE={"Board","News","Post","Topic","User"};
+	   public static final int MEMBER=0,NEWS=1,TEACHER=2,ADMIN=3;
+	   public static final int []PAGE_SIZE={3,3,3,3,3,3};
+	   public static final String[] TABLE={"Member","News","Teacher","Admin"};
 
 	   public static final String LOGIN_TYPE = "LOGIN_TYPE"; //登陆类型
 	public static final String MEMBER_CONTEXT = "MEMBER_CONTEXT";

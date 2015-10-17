@@ -2,7 +2,7 @@ package net.gslab.service;
 
 import java.util.List;
 
-import net.gslab.setting.Page;
+import net.gslab.setting.PageBean;
 
 
 public interface BaseService<T> {
@@ -33,7 +33,7 @@ public interface BaseService<T> {
 	List<T> findList(int... ids);
 
 
-	Page<T> findPage(Page pageable);
+	PageBean<T> findPage(PageBean pageable);
 
 
 
@@ -80,22 +80,22 @@ public interface BaseService<T> {
 	 *            实体对象
 	 */
 	void delete(T entity);
-	Page<T> getPage(int pageIndex);
+	PageBean<T> getPage(int pageIndex);
     /**
      * 
      * @param pageIndex   请求的页码
      * @param pageSize   每页的记录条数
      * @return
      */
-    Page<T> getPage(int pageIndex,int pageSize);
-    Page<T> getPage(String hql,int pageIndex);
+    PageBean<T> getPage(int pageIndex,int pageSize);
+    PageBean<T> getPage(String hql,int pageIndex);
     /**
      * 
      * @param hql         可以使用hql条件查询分页
      * @param pageSize
      * @return
      */
-    Page<T> getPage(String hql,int pageIndex,int pageSize);
+    PageBean<T> getPage(String hql,int pageIndex,int pageSize);
 
 	T get(int id);
 	public void  saveOrUpdate(T entity);

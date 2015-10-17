@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.gslab.entity.News;
 import net.gslab.entity.Teacher;
-import net.gslab.setting.Page;
+import net.gslab.setting.PageBean;
 
 public interface TeacherDao extends BaseDao<Teacher>{
 	

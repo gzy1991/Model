@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Resource;
 
 import net.gslab.dao.BaseDao;
-import net.gslab.setting.Page;
+import net.gslab.setting.PageBean;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -192,10 +192,13 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 
 
 	@Override
-	public Page<T> getPage(int pageIndex, final int pageSize) {
+	public PageBean<T> getPage(int pageIndex, final int pageSize) {
 		// TODO Auto-generated method stub
 		final String hql="from "+getEntityClass().getSimpleName();
 		int total=getCount(hql);
+		int mxIndex=(total-1)/pageSize+1;
+		if(pageIndex>mxIndex) pageIndex=mxIndex;
+		if(pageIndex<1) pageIndex=1;
 		final int offset=(pageIndex-1)*pageSize;
 		 List list = getHibernateTemplate().executeFind(new HibernateCallback() {     
 			    public Object doInHibernate(Session session)     
@@ -207,17 +210,20 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 			     return list;     
 			    }     
 			   });     
-		 return new Page(total,list,pageSize);
+		 return new PageBean(total,list,pageSize,pageIndex);
 	}
 	@Override
-	public Page getPage(final String hql, final int pageIndex, final int pageSize) {
+	public PageBean getPage(final String hql, int pageIndex, final int pageSize) {
 		// TODO Auto-generated method stub
 		List list=find(hql);
 		List list2=new ArrayList<T>();
+		int mxIndex=(list.size()-1)/pageSize+1;
+		if(pageIndex>mxIndex) pageIndex=mxIndex;
+		if(pageIndex<1) pageIndex=1;
 		int offset=(pageIndex-1)*pageSize;
 		for(int i=offset;(i<(offset+pageSize)&&i<list.size());i++)
 			list2.add(list.get(i));
-		return new Page(list.size(),list2,pageSize);
+		return new PageBean(list.size(),list2,pageSize,pageIndex);
 	}
 	public void saveOrUpdate(T entity){
 		getHibernateTemplate().saveOrUpdate(entity);

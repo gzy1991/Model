@@ -23,7 +23,7 @@ import net.gslab.dao.MemberDao;
 import net.gslab.service.TeacherService;
 import net.gslab.service.UserService;
 import net.gslab.service.impl.AdminServiceImpl;
-import net.gslab.setting.Page;
+import net.gslab.setting.PageBean;
 import net.gslab.tools.Email;
 
 import org.springframework.stereotype.Controller;

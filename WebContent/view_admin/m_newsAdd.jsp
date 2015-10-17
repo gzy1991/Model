@@ -18,7 +18,7 @@
     <link  rel="stylesheet" type="text/css" href="../css/MN_launchNews.css"/>
     
  <body>   
-    <form id="lanuch_News" action="/Model/view/addNews" class="addNews" method="post">
+    <form id="lanuch_News" action="/Model/news/addNews" class="addNews" method="post">
 
     </div> 
     <div>
