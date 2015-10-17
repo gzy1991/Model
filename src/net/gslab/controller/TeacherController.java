@@ -10,6 +10,7 @@ import javax.jws.WebParam.Mode;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.swing.text.View;
 
 import jxl.Sheet;
@@ -161,22 +162,16 @@ public class TeacherController extends BaseController {
 	
 	//删除一个老师
 	@RequestMapping(value="/delete")
-	public ModelAndView deleteTeacher(String teacherId,Model m)
+	public void delete(int []id,HttpServletResponse response) throws IOException
 	{
-		ModelAndView mav = new ModelAndView("redirect:"+"/view_admin/test.jsp");  //设置重定向
-		int id=Integer.parseInt(teacherId);
-		Teacher teacher=teacherDao.getTeacherById(id);
-		if(teacher!=null){
-			teacherService.delete(id);
-			mav.addObject("ERROR_MSG_KEY","delete success!.");
-			return mav;
+		if(id!=null)
+		{
+			for(int i=0;i<id.length;i++)
+				teacherService.delete(id[i]);
 		}
-		else{
-			mav.addObject("ERROR_MSG_KEY","the teacher do not exist, failed to delete!.");
-			return mav;
-		}
+		response.getWriter().print("删除成功");
 	}
-	 
+	
 	//查找单个老师 测试成功
 	@RequestMapping(value="/findOne")
 	public @ResponseBody Teacher findOne(int teacherId,Model m)

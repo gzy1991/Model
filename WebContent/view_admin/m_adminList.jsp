@@ -15,7 +15,7 @@
 	String params[]={};
 	String[] paramNames={};
 %>
-	<table><tr><th>用户名</th><th>姓名</th><th>密码</th></tr>
+	<table><tr><th>用户名</th><th>姓名</th></tr>
 	<%
 	PageBean pb=(PageBean)request.getAttribute("pageBean"); 
 	if(pb!=null)
@@ -25,9 +25,9 @@
 		{
 			Admin m=list.get(i);%>
 	
-	<tr><td><%= m.getAdminId()%></td>
+	<tr>
+	<td><%= m.getAdminId()%></td>
 	<td><%=m.getAdminName() %></td>
-	<td><%=m.getPassword() %></td>
 	
 	</tr>
 	
@@ -43,6 +43,6 @@
               <a class="nxp" href="<%=pb.getNextPage(uri,paramNames,params)%>">下一页</a>
               <a class="lsp" href="<%=pb.getLastPage(uri,paramNames,params)%>">尾页</a>
             </div>
-            </div>
+   </div>
 </body>
 </html>

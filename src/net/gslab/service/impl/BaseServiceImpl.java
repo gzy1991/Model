@@ -89,7 +89,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	@Override
 	public boolean delete(int id) {
 		// TODO Auto-generated method stub
-		T entity = baseDao.load(id);
+		T entity = baseDao.get(id);
 		return baseDao.remove(entity);
 	}
 

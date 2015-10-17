@@ -18,7 +18,7 @@
     <link  rel="stylesheet" type="text/css" href="../css/MN_launchNews.css"/>
     
  <body>   
-    <form id="lanuch_News" action="/Model/news/addNews" class="addNews" method="post">
+    <form id="lanuch_News" action="/Model/news/add" class="addNews" method="post">
 
     </div> 
     <div>
@@ -27,12 +27,7 @@
         </h3>
 
     </div>
-    <div>
-        <h3> 发布人姓名:&nbsp&nbsp&nbsp&nbsp&nbsp
-        <input style="width: 300px;" name="publishName">
-        </h3>
-
-    </div>
+    
 
     <div>
         <h3>内容:</h3>

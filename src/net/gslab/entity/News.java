@@ -13,6 +13,8 @@ public class News extends BaseDomain{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int newsId;
+	private int publishId;
+	private int who;
 	private String publishDate;
 	private String publishName;
 	private String content;
@@ -48,6 +50,19 @@ public class News extends BaseDomain{
 	public void setNewsName(String newsName) {
 		this.newsName = newsName;
 	}
+	public int getPublishId() {
+		return publishId;
+	}
+	public void setPublishId(int publishId) {
+		this.publishId = publishId;
+	}
+	public int getWho() {
+		return who;
+	}
+	public void setWho(int who) {
+		this.who = who;
+	}
+	
 	
 
 }
