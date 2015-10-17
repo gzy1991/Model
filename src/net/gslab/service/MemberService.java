@@ -18,5 +18,5 @@ public interface MemberService extends BaseService<Member>{
 
 	Member getMemberByLoadName(String loadname);
 	
-
+    public Member getByID(int id);//获取学生
 }

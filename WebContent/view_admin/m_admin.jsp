@@ -23,7 +23,7 @@
 	%>
   </div>
   <div class="welcome">
-	<span>admin:<%=admin.getAdminName()%>您好！</span><span><a>账号设置</a></span><span><a>注销</a></span>
+	<span>admin:<%=admin.getAdminName()%>您好！</span><span><a>账号设置</a></span><span><a href="../login2/doLoginOut">注销</a></span>
   </div>
 <div class="tab">
 	<ul>

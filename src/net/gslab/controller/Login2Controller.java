@@ -46,7 +46,7 @@ public class Login2Controller extends BaseController{
 		int id=Integer.parseInt(loadname);   //登陆账户转为int类型
 		
 		if(logintype.equals("student")){      //学生登录
-			Member dbMember = memberService.getMemberByLoadName(loadname);
+			Member dbMember = memberService.getByID(id);
 			if(dbMember==null) {
 				mav.addObject("ERROR_MSG_KEY", "the student Id don't exist1;");
 				mav.setViewName("redirect:/common/resource_not_found.jsp");
@@ -140,7 +140,7 @@ public class Login2Controller extends BaseController{
 	}
 	
 	//注销
-	@RequestMapping(value="/doLoginOut",method=RequestMethod.POST)
+	@RequestMapping(value="/doLoginOut")
 	public ModelAndView loginout2(HttpServletRequest request)
 	{
 		System.out.println("in the doLoginOut");

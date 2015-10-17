@@ -12,6 +12,6 @@
      out.println("已登陆老师的ID:"+tea.getTeacherId());
      out.print("</br>");
      out.println("已登陆老师的姓名:"+tea.getTeacherName()); %></br>
-                 处理结果：ERROR_MSG_KEY:   <%=request.getParameter("ERROR_MSG_KEY")%>
+                 处理结果：  <%=request.getParameter("ERROR_MSG_KEY")%>
 </body>
 </html>

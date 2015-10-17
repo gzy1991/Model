@@ -16,7 +16,7 @@
      out.println("已登陆管理员的姓名:"+admin.getAdminName()); }
      %></br>
  --%>     
-                 处理结果：ERROR_MSG_KEY:   <%=request.getParameter("ERROR_MSG_KEY")%>
+                 处理结果：  <%=request.getParameter("ERROR_MSG_KEY")%>
 
 </body>
 </html>

@@ -12,6 +12,7 @@
      out.println("已登陆学生的ID:"+stu.getMemberId());
      out.print("</br>");
      out.println("已登陆学生的姓名:"+stu.getMemberName()); %></br>
+     处理结果：  <%=request.getParameter("ERROR_MSG_KEY")%>
 
 </body>
 </html>

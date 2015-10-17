@@ -9,7 +9,7 @@
 </head>
 <body>
        
-         处理结果：ERROR_MSG_KEY:   <%=request.getParameter("ERROR_MSG_KEY")%>
+         处理结果：   <%=request.getParameter("ERROR_MSG_KEY")%>
 
   </form>
 </body>

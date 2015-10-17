@@ -152,7 +152,7 @@ public class MemberController extends BaseController{
 		{
 			System.out.println("in the action :setEmail  1");
 			ModelAndView mav = new ModelAndView();
-		    String toUrl="/jsp/t_setEmailResult.jsp";     //设置重定向
+		    String toUrl="../view_stu/test.jsp";     //设置重定向
 		    mav.setViewName("redirect:"+toUrl);
 			
 		   // System.out.println("in the action :setEmail  2");
@@ -183,7 +183,7 @@ public class MemberController extends BaseController{
 		{			
 			//System.out.println("in the action :activeEmail_send  1");
 		    ModelAndView mav = new ModelAndView();
-	        String toUrl="/jsp/test_activeEmailResult.jsp";     //设置重定向
+	        String toUrl="../view_stu/test.jsp";     //设置重定向
 	        mav.setViewName("redirect:"+toUrl);
 	        
 		    Member login_member=this.getSessionMember(request);//从session中获取已登陆用户的信息
@@ -243,7 +243,7 @@ public class MemberController extends BaseController{
 		System.out.println("in the modifyMember action!");
 
 		ModelAndView mav = new ModelAndView();
-		String toUrl="/jsp/t_modifyMemberResult.jsp";        //设置重定向
+		String toUrl="../view_stu/test.jsp";        //设置重定向
 		mav.setViewName("redirect:"+toUrl);                  //设置重定向
 		
         Member login_member=this.getSessionMember(request);//从session中获取已登陆用户的信息
@@ -286,7 +286,7 @@ public class MemberController extends BaseController{
 	public  ModelAndView changePass(HttpServletRequest request,String password,String passwordNew,String passwordNew2)
 	{
 		ModelAndView mav = new ModelAndView();
-		String toUrl="/jsp/t_modifyPassword_1_result.jsp";        //设置重定向
+		String toUrl="../view_stu/test.jsp";        //设置重定向
 		mav.setViewName("redirect:"+toUrl);                  //设置重定向
 
 		Member member=this.getSessionMember(request);//从session中获取已登陆用户的信息

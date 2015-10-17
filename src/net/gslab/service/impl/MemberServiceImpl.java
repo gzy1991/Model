@@ -84,4 +84,11 @@ public class MemberServiceImpl extends BaseServiceImpl<Member> implements Member
 		Member entity = memberDao.load(id);
 		return memberDao.remove(entity);
 	}
+	
+	@Override
+	public Member getByID(int id) {
+		// TODO Auto-generated method stub
+		return memberDao.get(id);	
+
+	}
 }
