@@ -3,6 +3,7 @@
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -36,58 +37,32 @@ public class NewsController extends BaseController{
 	//github测试2，2015年7月3日22:17:13
 	//github测试3，2015年7月3日22:38:42
 	
-	//添加新闻
-	@RequestMapping("/add")
-	public void addNews(){
-		System.out.println("in the NewsController");
-		News news = new News();
-		Date date = new Date();//date.toString()输出格林威治时间
-		System.out.println(date);
-		String strDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
-		System.out.println(strDate);
-		//news.setNewsId(1);
-		news.setContent("first news test");
-		news.setPublishDate(strDate);
-		news.setPublishName("关振宇");
-		//该外键不存在会报错：Cannot add or update a child row: a foreign key constraint fails (`model`.`t_news`, CONSTRAINT `newsPublisher` FOREIGN KEY (`publishName`) REFERENCES `t_user` (`userName`))
-		
-		newsService.save(news);
-	}
+	
 	
 	//从后台添加新闻
-	@RequestMapping(value="/addNews",method=RequestMethod.POST)
-	public @ResponseBody String addNews2(String newsName,String publishName,String content)
+	@RequestMapping(value="/add")
+	public @ResponseBody String add(News news,HttpServletRequest request)
 	{
-		News news=new News();
+		if(news==null) return "error";
 		//进行格式判断,先判断是否为空
-		if(newsName.isEmpty()||publishName.isEmpty()||content.isEmpty())
+		if(getSessionType(request).equals("teacher"))
 		{
-			//System.out.print("发布新闻失败，新闻标题、新闻内容和发布者姓名不能为空！");
-			return "faild，newsName、 publishName and content can not be empty!";
+			news.setWho(0);
+			news.setPublishName(getSessionTeacher(request).getTeacherName());
+			news.setPublishId(getSessionTeacher(request).getTeacherId());
 		}
-		
-		// ? 应该进行判断:member中是否存在名字是publishName的人，但是这里暂时没写;  
-		
+		if(getSessionType(request).equals("admin"))
+		{
+			news.setWho(1);
+			news.setPublishName(getSessionAdmin(request).getAdminName());
+			news.setPublishId(getSessionAdmin(request).getAdminId());
+		}
 		//获取当前时间
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-		String time=df.format(new Date()).toString();
-		System.out.print("发布此新闻的时间："+time);	
-		
-		//给News赋值
-		news.setContent(content);
-		news.setNewsName(newsName);
-		news.setPublishName(publishName);
+		String time=df.format(new Date());
 		news.setPublishDate(time);
-		
-		//获取当前新闻的总数目，加1后，给news.NewsId赋值,然后发布新闻
-		if(news!=null)
-		{
-			int id= newsService.listNews().size()+1;
-			news.setNewsId(id);
-			newsService.save(news);
-			return "success!";
-		}
-		return "sorry,faild!";
+		newsService.save(news);
+		return "success";
 	}
 	
 	//分页例子，
@@ -168,12 +143,16 @@ public class NewsController extends BaseController{
 	}
        
     //删除新闻,前台传入ID，根据ID删除新闻，删除后，检验是否删除成功
-   	@RequestMapping("/deleteByID")
-   	public void delNews(int id){
-   		System.out.println("in the NewsController");
-   		//News news = new News();  		
-   		newsService.delete(id) ;
-   	}
+   	@RequestMapping("/delete")
+   	public void delete(int []id,HttpServletResponse response) throws IOException
+	{
+		if(id!=null)
+		{
+			for(int i=0;i<id.length;i++)
+				newsService.delete(id[i]);
+		}
+		response.getWriter().print("删除成功");
+	}
    	
   //返回全部新闻 ，返回json串，这就是一个测试
    	@RequestMapping(value="/newsList") 
@@ -185,12 +164,19 @@ public class NewsController extends BaseController{
 	}
 
 	//根据新闻id，获得数据库中的新闻
-	@RequestMapping(value ="/getByID",method = RequestMethod.GET)
-	public @ResponseBody News getByID(HttpServletRequest request,
-			HttpServletResponse response,@RequestParam(value="id")Integer id)//id是指新闻id，
+	@RequestMapping(value ="/getByID")
+	public @ResponseBody News getByID(int id)
 	{
-		System.out.println(id);
-		return newsService.getByID(id);
+		return newsService.get(id);
+	}
+	@RequestMapping(value ="/detail")
+	public ModelAndView detail(int id)
+	{
+		ModelAndView mav =new ModelAndView("/view_all/news_detail.jsp");
+		
+		News n=newsService.get(id);
+		mav.addObject("ele", n);
+		return mav;
 	}
 	
 }

@@ -15,7 +15,8 @@
 	String params[]={};
 	String[] paramNames={};
 %>
-	<table><tr><th>ID</th><th>标题</th><th></th><th>时间</th></tr>
+	<form action="/Model/news/delete">
+	<table><tr><th></th><th>ID</th><th>标题</th><th></th><th>时间</th></tr>
 	<%
 	PageBean pb=(PageBean)request.getAttribute("pageBean"); 
 	if(pb!=null)
@@ -25,7 +26,7 @@
 		{
 			News m=list.get(i);%>
 	
-	<tr><td><%= m.getNewsId()%></td>
+	<tr><td><input name="id" value="<%=m.getNewsId()%>" type="checkbox"> </td><td><%= m.getNewsId()%></td>
 	<td><%=m.getNewsName() %></td>
 	<td><%=m.getPublishDate()%></td>
 	
@@ -33,6 +34,8 @@
 	
 	<%}}%>
 	</table>
+	<button>删除选中的新闻</button>
+	</form>
 	<div class="btmcontent clearfix">
             
             <form class="pgsch clearfix" action=<%=uri%> ><button class="pggo">转到</button><input type="text" class="pgparam" name="pg">页</form>
