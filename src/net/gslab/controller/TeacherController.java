@@ -19,7 +19,7 @@ import net.gslab.entity.Member;
 import net.gslab.entity.Teacher;
 import net.gslab.service.TeacherService;
 import net.gslab.service.UserService;
-import net.gslab.setting.Page;
+import net.gslab.setting.PageBean;
 import net.gslab.tools.Email;
 
 import org.springframework.stereotype.Controller;
@@ -190,17 +190,33 @@ public class TeacherController extends BaseController {
 	}
 	//查找一页老师 ,测试成功，例：http://localhost:8080/Model/teacher/findPage?pageIndex=1&pageSize=4
 	@RequestMapping(value="/findPage")
-	public @ResponseBody Page<Teacher> findPage(int pageIndex,  int pageSize,Model m)
+	public @ResponseBody PageBean<Teacher> findPage(int pageIndex,  int pageSize)
 	{
 		/**
 		 * @param pageIndex   请求的页码
          * @param pageSize   每页的记录条数
          * @param 
 		 */
-		Page page=teacherDao.getPage(pageIndex,pageSize);
+		PageBean page=teacherDao.getPage(pageIndex,pageSize);
 		return page;
 	}
-	
+	//查找一页老师 ,测试成功，例：http://localhost:8080/Model/teacher/findPage?pageIndex=1&pageSize=4
+		@RequestMapping(value="/getPage")
+		public ModelAndView getPage(String pg)
+		{
+			/**
+			 * @param pageIndex   请求的页码
+	         * @param pageSize   每页的记录条数
+	         * @param 
+			 */
+			int pageIndex;
+			if(pg==null) pageIndex=0;
+			else pageIndex=Integer.parseInt(pg);
+			ModelAndView mav=new ModelAndView("/view_admin/m_teacherList.jsp");
+			PageBean pageBean=teacherService.getPage(pageIndex);
+			mav.addObject("pageBean",pageBean);
+			return mav;
+		}
 	//修改老师信息 ，修改除密码以外的其他信息，账户名和id是不可以修改的。）,修改：地址、年级、班级、生日、性别、专业、电话、QQ
 	@RequestMapping(value="/changeInf")
 	public ModelAndView changeInf(HttpServletRequest request,Teacher teacher)

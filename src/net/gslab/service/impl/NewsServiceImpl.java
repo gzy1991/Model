@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 @Service(value="newsServiceImpl")
 public class NewsServiceImpl extends BaseServiceImpl<News> implements NewsService{
 
-	@Resource(name = "newsDaoImpl")
 	private NewsDao newsDao;
 	
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!一定要在service中写上层dao的set

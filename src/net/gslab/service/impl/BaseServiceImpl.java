@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import net.gslab.dao.BaseDao;
 import net.gslab.service.BaseService;
 import net.gslab.setting.CommonConstant;
-import net.gslab.setting.Page;
+import net.gslab.setting.PageBean;
 
 @Service("baseServiceImpl")
 public class BaseServiceImpl<T> implements BaseService<T> {
@@ -59,7 +59,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public Page<T> findPage(Page pageable) {
+	public PageBean<T> findPage(PageBean pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -102,7 +102,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 		this.baseDao = baseDao;
 	}
 	@Override
-	public Page<T> getPage(int pageIndex) {
+	public PageBean<T> getPage(int pageIndex) {
 		// TODO Auto-generated method stub
 		String className=baseDao.getEntityClass().getSimpleName();
 		int pageSize=CommonConstant.PAGE_SIZE[CommonConstant.getTable(className)];
@@ -111,7 +111,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public Page<T> getPage(String hql, int pageIndex) {
+	public PageBean<T> getPage(String hql, int pageIndex) {
 		// TODO Auto-generated method stub
 		String className=baseDao.getEntityClass().getSimpleName();
 		int pageSize=CommonConstant.PAGE_SIZE[CommonConstant.getTable(className)];
@@ -119,14 +119,14 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public Page<T> getPage(int pageIndex, int pageSize) {
+	public PageBean<T> getPage(int pageIndex, int pageSize) {
 		// TODO Auto-generated method stub
 		
 		return baseDao.getPage(pageIndex, pageSize);
 	}
 
 	@Override
-	public Page<T> getPage(String hql, int pageIndex, 
+	public PageBean<T> getPage(String hql, int pageIndex, 
 			int pageSize) {
 		// TODO Auto-generated method stub
 		

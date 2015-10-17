@@ -29,10 +29,10 @@
 	<ul>
 <!-- 		<li><a href="#" target="iframe">首页</a></li> -->
 <li><a id="#managerSelf" class="nav" href="m_admin_personalInfor.jsp" target="iframe">个人管理</a></li>
-		<li><a id="#managerStudent" class="nav" href="m_admin_student.jsp" target="iframe">学生管理</a></li>
-		<li><a id="#managerTeacher" class="nav" href="m_admin_teacher.jsp" target="iframe">教师管理</a></li>
-		<li><a id="#managerAdmin" class="nav" href="m_admin_admin.jsp" target="iframe">管理员管理</a></li>
-		<li><a id="#managerNews" class="nav" href="m_admin_news.jsp" target="iframe">新闻管理</a></li>
+		<li><a id="#managerStudent" class="nav" href="/Model/member/getPage" target="iframe">学生管理</a></li>
+		<li><a id="#managerTeacher" class="nav" href="/Model/teacher/getPage" target="iframe">教师管理</a></li>
+		<li><a id="#managerAdmin" class="nav" href="/Model/admin/getPage" target="iframe">管理员管理</a></li>
+		<li><a id="#managerNews" class="nav" href="/Model/news/getPage" target="iframe">新闻管理</a></li>
 	</ul>
 </div>	
 <hr/>
@@ -41,17 +41,17 @@
 	<div class="menuList" id="managerStudent">
 		<ul>
 			<li>学生管理</li>
-			<li><a href="m_studentList.jsp" class="menuListA" target="iframe">查看学生</a></li>
-			<li><a href="m_addStudent.jsp" class="menuListA"target="iframe">添加学生</a></li>
-			<li><a href="excelUpload.jsp" class="menuListA"target="iframe">批量添加</a></li>
-			<li><a href="m_deleteStudent.jsp" class="menuListA"target="iframe">删除学生</a></li>
+			<li><a href="/Model/member/getPage" class="menuListA" target="iframe">查看学生</a></li>
+			<li><a href="m_addStudent.jsp" class="menuListA" target="iframe">添加学生</a></li>
+			<li><a href="excelUpload.jsp" class="menuListA" target="iframe">批量添加</a></li>
+			<li><a href="m_deleteStudent.jsp" class="menuListA" target="iframe">删除学生</a></li>
 
 		</ul>
 	</div>
 	<div class="menuList" id="managerTeacher">
 		<ul>
 			<li>教师管理</li>
-			<li><a href="m_teacherList.jsp" target="iframe">查看教师</a></li>
+			<li><a href="/Model/teacher/getPage" target="iframe">查看教师</a></li>
 			<li><a href="m_teacherAdd.jsp" class="menuListA"target="iframe">添加教师</a></li>
 			<li><a href="m_teacherExcelUpload.jsp" class="menuListA"target="iframe">批量添加</a></li>
 			
@@ -60,7 +60,7 @@
 	<div class="menuList" id="managerAdmin">
 		<ul>
 			<li>管理员管理</li>
-			<li><a href="" target="iframe">查看管理员</a></li>
+			<li><a href="/Model/admin/getPage" target="iframe">查看管理员</a></li>
 			<li><a href="m_addAdmin.jsp" class="menuListA"target="iframe">添加管理员</a></li>
 			<li><a href="m_deleteAdmin.jsp" class="menuListA"target="iframe">删除管理员</a></li>
 		</ul>
@@ -68,7 +68,7 @@
 	<div class="menuList" id="managerNews">
 		<ul>
 			<li>新闻管理</li>
-			<li><a href="" target="iframe">查看新闻</a></li>
+			<li><a href="/Model/news/getPage" target="iframe">查看新闻</a></li>
 			<li><a href="m_newsAdd.jsp" class="menuListA"target="iframe">添加新闻</a></li>
 			<li><a href="m_newsDelete.jsp"  class="menuListA"target="iframe">删除新闻</a></li>
 		</ul>

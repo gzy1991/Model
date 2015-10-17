@@ -13,21 +13,18 @@ import net.gslab.entity.Teacher;
 import net.gslab.service.AdminService;
 import net.gslab.service.TeacherService;
 import net.gslab.setting.CommonConstant;
-import net.gslab.setting.Page;
+import net.gslab.setting.PageBean;
 
 @Service("adminServiceImpl")
 public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminService{
-	@Resource(name="adminDaoImpl")
 	private AdminDao adminDao;
 
-	/*public BaseDao getBaseDao() {
-		return baseDao;
+	@Resource(name = "adminDaoImpl")
+	public void setAdminDao(AdminDao adminDao) {
+		this.adminDao=adminDao;
+		super.setBaseDao(adminDao);
+		
 	}
-	@Resource(name = "baseDaoImpl")
-	public void setAdminDao(BaseDao baseDao) {
-		super.setBaseDao(baseDao);
-		this.baseDao = baseDao;
-	}*/
 	
 	
 	@Override
@@ -45,7 +42,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
 		Admin entity = adminDao.load(id);
 		return adminDao.remove(entity);
 	}
-	public Page<Admin> getPage(int pageIndex){
+	public PageBean<Admin> getPage(int pageIndex){
 		String className=adminDao.getEntityClass().getSimpleName();
 		int pageSize=CommonConstant.PAGE_SIZE[CommonConstant.getTable(className)];
 		return adminDao.getPage(pageIndex,pageSize);

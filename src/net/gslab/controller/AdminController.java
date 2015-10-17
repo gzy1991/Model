@@ -17,7 +17,7 @@ import net.gslab.dao.AdminDao;
 import net.gslab.service.TeacherService;
 import net.gslab.service.UserService;
 import net.gslab.service.impl.AdminServiceImpl;
-import net.gslab.setting.Page;
+import net.gslab.setting.PageBean;
 import net.gslab.tools.Email;
 
 import org.springframework.stereotype.Controller;
@@ -147,21 +147,18 @@ public class AdminController extends BaseController{
 		return admin;
 	}
 	
-	//查找全部admin分页，返回json串，  例子："http://localhost:8080/Model/admin/findAllAdmin?pageIndex=1&pageSize=5"
-	@RequestMapping(value="/findAllAdmin",method=RequestMethod.GET)
-	public @ResponseBody Page<Admin> findAllAdmin(int pageIndex,  int pageSize){
-		/**
-		 * @param pageIndex   请求的页码
-         * @param pageSize   每页的记录条数
-         * @param 
-		 */
-		Page page= adminDao.getPage(pageIndex,pageSize);
-		/*int max=page.getPageSize();
-		List<Admin> admins=page.getData();*/
-		return page;
+	
+	@RequestMapping("/getPage")
+	public ModelAndView getPage(String pg)
+	{
+		int pageIndex;
+		if(pg==null) pageIndex=1;
+		else pageIndex=Integer.parseInt(pg);
+		ModelAndView mav=new ModelAndView("/view_admin/m_adminList.jsp");
+		PageBean pageBean=adminService.getPage(pageIndex);
+		mav.addObject("pageBean",pageBean);
+		return mav;
 	}
-	
-	
 	//修改admin信息
 	
 	

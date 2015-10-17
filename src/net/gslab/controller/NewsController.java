@@ -15,7 +15,7 @@ import net.gslab.entity.News;
 import net.gslab.entity.User;
 import net.gslab.service.NewsService;
 import net.gslab.setting.CommonConstant;
-import net.gslab.setting.Page;
+import net.gslab.setting.PageBean;
 
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -23,9 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller(value="newsController")
-@RequestMapping("/view")
+@RequestMapping("/news")
 public class NewsController extends BaseController{
 
 	@Resource(name="newsServiceImpl")
@@ -90,30 +91,27 @@ public class NewsController extends BaseController{
 	}
 	
 	//分页例子，
-       @RequestMapping(value = "/getPage", method = RequestMethod.GET)
-	   public @ResponseBody List<News>  list(HttpServletRequest request,
-			HttpServletResponse response,@RequestParam(value="pageIndex")Integer pageIndex) {
+       @RequestMapping(value = "/getPage")
+	   public ModelAndView getPage(Integer pg) {
 		/**
 		 * @param pageIndex   请求的页码
          * @param pageSize   每页的记录条数
          * @param 
 		 */
 		//return newsService.getPage(pageIndex);  //使用默认的pageSize
-    	Page page=newsService.getPage("from News n order by n.publishDate desc",pageIndex,12);  //自定义pageSize为2 
-    	List<News> data=page.getData();
-    	for(int i=0;i<data.size();i++)
-		{
-			News temp=data.get(i);
-			temp.setContent(null);
-		}		
-		 List list_temp=page.getData();
-		 list_temp.add(page.getTotalCount());
-		 return  list_temp;
+    	int pageIndex;
+    	if(pg==null) pageIndex=1;
+    	else pageIndex=pg;
+    	PageBean page=newsService.getPage("from News n order by n.publishDate desc",pageIndex);  //自定义pageSize为2 
+    	ModelAndView mav=new ModelAndView("/view_admin/m_newsList.jsp");
+		PageBean pageBean=newsService.getPage(pageIndex);
+		mav.addObject("pageBean",pageBean);
+		return mav;
 	}
         //分页2，返回分页，附带新闻总数，已测试，可以使用；
         //参数pageIndex指定是第几页
        @RequestMapping(value = "/getPage_2", method = RequestMethod.GET)
-       public @ResponseBody Page<News> list2(HttpServletRequest request,
+       public @ResponseBody PageBean<News> list2(HttpServletRequest request,
    			HttpServletResponse response,@RequestParam(value="pageIndex")Integer pageIndex,  int pageSize)
    			{
     	   /**
@@ -121,7 +119,7 @@ public class NewsController extends BaseController{
             * @param pageSize   每页的记录条数
             * @param 
    		 */
-    	   Page page=newsService.getPage("from News n order by n.publishDate desc",pageIndex,pageSize);  
+    	   PageBean page=newsService.getPage("from News n order by n.publishDate desc",pageIndex,pageSize);  
     	   return page;
    			}
        
@@ -143,7 +141,7 @@ public class NewsController extends BaseController{
          * @param pageSize   每页的记录条数
          * @param 
 		 */
-    	Page page=newsService.getPage("from News n order by n.publishDate desc",1,9); 	//按日期排序	
+    	PageBean page=newsService.getPage("from News n order by n.publishDate desc",1,9); 	//按日期排序	
 		List<News> data=page.getData();
 		//把不用的属性设置为null(主要是content，其余占用的空间小，减少占用的带宽)
 		for(int i=0;i<data.size();i++)
@@ -165,7 +163,7 @@ public class NewsController extends BaseController{
          * @param pageSize   每页的记录条数 
          * @param 
 		 */ 
-    	Page page=newsService.getPage("from News n order by n.publishDate desc",1,3); 	//按日期排序	
+    	PageBean page=newsService.getPage("from News n order by n.publishDate desc",1,3); 	//按日期排序	
 		return page.getData();
 	}
        

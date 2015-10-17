@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import net.gslab.dao.TopicDao;
 import net.gslab.entity.Topic;
-import net.gslab.setting.Page;
+import net.gslab.setting.PageBean;
 
 
 

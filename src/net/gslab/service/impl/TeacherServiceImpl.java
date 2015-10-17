@@ -12,10 +12,12 @@ import net.gslab.service.TeacherService;
 public class TeacherServiceImpl extends BaseServiceImpl<Teacher> implements TeacherService{
 
 	
-	
-
-	@Resource(name = "teacherDaoImpl")
 	private TeacherDao teacherDao;
+	@Resource(name = "teacherDaoImpl")
+	public void setTeacherDao(TeacherDao teacherDao) {
+		this.teacherDao=teacherDao;
+		super.setBaseDao(teacherDao);
+	}
 	@Override
 	public Teacher getByID(int id) {
 		// TODO Auto-generated method stub

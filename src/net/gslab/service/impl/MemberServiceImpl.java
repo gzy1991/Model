@@ -16,7 +16,6 @@ import net.gslab.service.MemberService;
 @Service("memberServiceImpl")
 public class MemberServiceImpl extends BaseServiceImpl<Member> implements MemberService{
 
-	@Resource(name="memberDaoImpl")
 	private MemberDao memberDao;
 	
 /*	@Override
@@ -33,7 +32,7 @@ public class MemberServiceImpl extends BaseServiceImpl<Member> implements Member
 	@Resource(name = "memberDaoImpl")
 	public void setMemberDao(MemberDao memberDao) {
 		super.setBaseDao(memberDao);
-		this.memberDao = memberDao;
+		super.setBaseDao(memberDao);
 	}
 
 	public List<Member> listMembers(String groupName){
