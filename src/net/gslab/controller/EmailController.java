@@ -132,7 +132,7 @@ public class EmailController extends BaseController{
 	@RequestMapping(value="/resetPasseord_sent",method=RequestMethod.POST)
 	 public ModelAndView resetPasseord(HttpServletRequest request,String logintype,String loadname,String email){
 		ModelAndView mav = new ModelAndView();
-	    String toUrl="/view_all/emailResetPasswordResult.jsp";     //设置重定向
+	    String toUrl="/view_all/test.jsp";     //设置重定向
 	    mav.setViewName("redirect:"+toUrl);
 	    
 	    if(logintype.equals("student")){
@@ -151,6 +151,9 @@ public class EmailController extends BaseController{
 	    		 dbMember.setPassword(captch);		  //设置密码
 	    		 memberDao.update(dbMember);                  //密码写入数据库
 	       		 mav.addObject("ERROR_MSG_KEY", "the  email has been sent, please check!.");
+	       		 return mav;
+	    	}else{
+	    		 mav.addObject("ERROR_MSG_KEY", "email address is wrong   ,faild to reset password.");
 	       		 return mav;
 	    	}
 	    }else if(logintype.equals("teacher")){
@@ -171,6 +174,9 @@ public class EmailController extends BaseController{
 	    		 teacherDao.update(dbTeacher);                //新密码写入数据库
 	       		 mav.addObject("ERROR_MSG_KEY", "the  email has been sent, please check!.");
 	       		 return mav;
+	    	}else{
+	    		 mav.addObject("ERROR_MSG_KEY", "email address is wrong   ,faild to reset password.");
+	       		 return mav;
 	    	}
 	    }else if(logintype.equals("admin")){
 	    	int id=Integer.parseInt(loadname);
@@ -190,12 +196,15 @@ public class EmailController extends BaseController{
 	    		 adminDao.update(dbAdmin);                  //密码写入数据库
 	       		 mav.addObject("ERROR_MSG_KEY", "the  email has been sent, please check!.");
 	       		 return mav;
+	    	}else{
+	    		 mav.addObject("ERROR_MSG_KEY", "email address is wrong   ,faild to reset password.");
+	       		 return mav;
 	    	}
 	    }else{// type类型不存在，链接有问题
      		 mav.addObject("ERROR_MSG_KEY", "the user type is wrong！");
      		return mav;
 	    }
-	    return mav;
+	   
 	}
 	
 	/*// 重置密码->接收邮件 ，  resetPasseord_receive  

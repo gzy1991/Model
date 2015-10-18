@@ -17,5 +17,6 @@
 	
 	<input type="submit" value="登录"/>
 	</form>
+	<a href="/Model/view_all/emailResetPassword.jsp">忘记密码?</a>
 </body>
 </html>

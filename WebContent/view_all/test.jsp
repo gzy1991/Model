@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	in view_all
+	   处理结果：  <%=request.getParameter("ERROR_MSG_KEY")%>
 </body>
 </html>
