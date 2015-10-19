@@ -14,7 +14,7 @@ public class News extends BaseDomain{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int newsId;
 	private int publishId;
-	private int who;
+	private int who;   // 0：teacher     1：admin
 	private String publishDate;
 	private String publishName;
 	private String content;

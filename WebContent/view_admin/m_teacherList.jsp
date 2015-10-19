@@ -15,7 +15,8 @@
 	String params[]={};
 	String[] paramNames={};
 %>
-	<table><tr><th>用户名</th><th>姓名</th><th>密码</th></tr>
+    <form action="/Model/teacher/delete">
+	<table><tr><th></th><th>ID</th><th>姓名</th><th>密码</th></tr>
 	<%
 	PageBean pb=(PageBean)request.getAttribute("pageBean"); 
 	if(pb!=null)
@@ -25,7 +26,10 @@
 		{
 			Teacher t=list.get(i);%>
 	
-	<tr><td><%= t.getTeacherId()%></td>
+	<tr>
+	<td><input name="id" value="<%=t.getTeacherId()%>" type="checkbox"> </td>
+	<td><%= t.getTeacherId()%></td>
+	
 	<td><%=t.getTeacherName() %></td>
 	<td><%=t.getPassword() %></td>
 	
@@ -33,6 +37,8 @@
 	
 	<%}}%>
 	</table>
+	<button>删除选中的老师</button>
+	</form>
 	<div class="btmcontent clearfix">
             
             <form class="pgsch clearfix" action=<%=uri%> ><button class="pggo">转到</button><input type="text" class="pgparam" name="pg">页</form>

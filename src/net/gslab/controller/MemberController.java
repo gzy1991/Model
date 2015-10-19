@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.gslab.dao.MemberDao;
 import net.gslab.entity.Member;
@@ -90,6 +91,18 @@ public class MemberController extends BaseController{
 		}
 	}
 	
+	//批量删除学生
+	@RequestMapping(value="/delete")
+	public void delete(int []id,HttpServletResponse response) throws IOException
+	{
+		if(id!=null)
+		{
+			for(int i=0;i<id.length;i++)
+				memberService.delete(id[i]);
+		}
+		response.getWriter().print("删除成功");
+	}
+		
 	//查找单个学生， 测试通过，例子：”http://localhost:8080/Model/member/findOne?id=112“
 	@RequestMapping(value="/findOne",method=RequestMethod.GET)
 	public @ResponseBody Member findOne(String id){
