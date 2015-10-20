@@ -18,5 +18,13 @@
 	<input type="submit" value="登录"/>
 	</form>
 	<a href="/Model/view_all/emailResetPassword.jsp">忘记密码?</a>
+	<%if(request.getAttribute("ERROR_MSG_KEY")!=null){
+	out.print("<hr/>");
+	out.print("提示：");
+	out.print(request.getAttribute("ERROR_MSG_KEY"));
+}
+
+
+%>
 </body>
 </html>

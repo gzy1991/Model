@@ -86,6 +86,7 @@ public class LoginFilterAdmin implements Filter {
 					toUrl += "?" + httpRequest.getQueryString();
 				System.out.println("toUrl" + toUrl);
 				// 把想要访问的界面存到LOGIN_TO_URL里，转到登陆界面，一旦登陆成功就去那个页面
+				request.setAttribute("ERROR_MSG_KEY", "您访问的页面需要有管理员登陆权限，请先登陆！");
 				httpRequest.getSession().setAttribute(
 						CommonConstant.LOGIN_TO_URL, toUrl);
 				request.getRequestDispatcher("/login2.jsp").forward(

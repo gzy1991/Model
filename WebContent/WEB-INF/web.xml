@@ -30,6 +30,14 @@
   </filter>
   <filter-mapping>
     <filter-name>loginFilter</filter-name>
+    <url-pattern>/file/listCategory</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>loginFilter</filter-name>
+    <url-pattern>/video/listCategory</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>loginFilter</filter-name>
     <url-pattern>/view/*</url-pattern>
   </filter-mapping>
  <!--  <filter-mapping>
